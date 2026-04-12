@@ -1,65 +1,159 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import {useRef, useState, useEffect} from 'react'
+import {motion, useSpring, animate, AnimatePresence} from 'framer-motion'
+
+import Navbar from '@/components/Navbar'
+import HeroSection from '@/components/HeroSection'
+import AboutSection from '@/components/AboutSection'
+import TechStackSection from '@/components/TechStackSection'
+import ProjectsSection from '@/components/ProjectsSection'
+import ContactSection from '@/components/ContactSection'
+import Footer from '@/components/Footer'
+import TunnelBackground from '@/components/TunnelBackground'
+import ParticlesBackground from '@/components/ParticlesBackground'
+
+interface Section {
+  id: string
+  label: string
+  component: JSX.Element
+}
+
+export default function Page() {
+  const sections: Section[] = [
+    {id: 'hero', label: 'Home', component: <HeroSection onNext={() => transitionTo(1)}/>},
+    {id: 'about', label: 'About', component: <AboutSection/>},
+    {id: 'tech', label: 'Tech Stack', component: <TechStackSection/>},
+    {id: 'projects', label: 'Projects', component: <ProjectsSection/>},
+    {id: 'contact', label: 'Contact', component: <div className="flex flex-col justify-center items-center "><ContactSection/><Footer/></div>},
+  ]
+
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const isTransitioning = useRef(false)
+  const touchStartY = useRef(0)
+
+  const zoom = useSpring(0, {stiffness: 300, damping: 70, mass: 1.1})
+
+  const transitionTo = (nextIndex: number) => {
+    if (
+        isTransitioning.current ||
+        nextIndex === currentIndex ||
+        nextIndex < 0 ||
+        nextIndex >= sections.length
+    ) return
+
+    isTransitioning.current = true
+
+    animate(zoom, nextIndex, {
+      duration: 0.50,
+      ease: [0.32, 0, 0.18, 1],
+      onUpdate: (v) => {
+        const mid = (currentIndex + nextIndex) / 2
+        const pastMidpoint =
+            nextIndex > currentIndex ? v >= mid : v <= mid
+
+        if (pastMidpoint && isTransitioning.current) {
+          setCurrentIndex(nextIndex)
+        }
+      },
+      onComplete: () => {
+        setCurrentIndex(nextIndex)
+        isTransitioning.current = false
+      },
+    })
+  }
+
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault()
+      if (isTransitioning.current) return
+      if (e.deltaY > 0) transitionTo(currentIndex + 1)
+      else transitionTo(currentIndex - 1)
+    }
+    window.addEventListener('wheel', handleWheel, {passive: false})
+    return () => window.removeEventListener('wheel', handleWheel)
+  }, [currentIndex])
+
+  useEffect(() => {
+    const handleTouchStart = (e: TouchEvent) =>
+        (touchStartY.current = e.touches[0].clientY)
+    const handleTouchEnd = (e: TouchEvent) => {
+      const delta = touchStartY.current - e.changedTouches[0].clientY
+      if (Math.abs(delta) < 50 || isTransitioning.current) return
+      if (delta > 0) transitionTo(currentIndex + 1)
+      else transitionTo(currentIndex - 1)
+    }
+    window.addEventListener('touchstart', handleTouchStart, {passive: true})
+    window.addEventListener('touchend', handleTouchEnd, {passive: true})
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart)
+      window.removeEventListener('touchend', handleTouchEnd)
+    }
+  }, [currentIndex])
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+      <div className="fixed inset-0 overflow-hidden bg-background text-foreground ">
+        {/*<ParticlesBackground />*/}
+        <div className="fixed top-6 left-6 z-50">
+        <span className="text-xs md:text-sm lg:text-md font-body text-muted-foreground tracking-[0.2em] uppercase">
+          {sections[currentIndex]?.label}
+        </span>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <TunnelBackground zoom={zoom}/>
+
+        <div className="relative z-30 h-full w-full ">
+          <AnimatePresence mode="wait">
+            <motion.div
+                key={sections[currentIndex].id}
+                initial={{
+                  opacity: 0,
+                  scale: 0.55,
+                  filter: 'blur(12px)',
+                }}
+                animate={{
+                  opacity: 1,
+                  scale: 1,
+                  filter: 'blur(0px)',
+                }}
+                exit={{
+                  opacity: 0,
+                  scale: 1.18,
+                  filter: 'blur(10px)',
+                }}
+                transition={{
+                  duration: 0.55,
+                  ease: [0.32, 0, 0.18, 1],
+                }}
+                className="flex h-full w-full items-center justify-center "
+            >
+              <div className="w-full flex items-center justify-center ">
+                {sections[currentIndex].component}
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Side nav dots */}
+          <div className="fixed right-6 top-1/2 z-50 flex -translate-y-1/2 flex-col gap-4">
+            {sections.map((section, idx) => (
+                <button
+                    key={section.id}
+                    onClick={() => transitionTo(idx)}
+                    className={`h-3 w-3 rounded-full transition-all duration-500 ${
+                        idx === currentIndex
+                            ? 'scale-150 bg-primary shadow-[0_0_20px] shadow-primary'
+                            : 'bg-white/20 hover:scale-125 hover:bg-white/50'
+                    }`}
+                />
+            ))}
+          </div>
         </div>
-      </main>
-    </div>
-  );
+        <div className="fixed bottom-6 left-6 z-50">
+        <span className="text-xs md:text-sm lg:text-md font-heading text-muted-foreground">
+          <span className="neon-text">{String(currentIndex + 1).padStart(2, "0")}</span>
+          <span className="mx-1">/</span>
+          {String(sections.length).padStart(2, "0")}
+        </span>
+        </div>
+      </div>
+  )
 }
