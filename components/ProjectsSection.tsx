@@ -18,24 +18,26 @@ const projects = [
 
 const ProjectsSection = () => {
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-6 max-w-4xl mx-auto">
+        <div className="flex flex-col items-center justify-center min-h-screen px-6 max-w-3xl mx-auto">
             <p className="text-primary font-body text-sm tracking-[0.3em] uppercase mb-8">
                 Work
             </p>
             <h2 className="text-4xl md:text-5xl font-heading font-bold mb-16 text-center">
                 Featured <span className="neon-text">Projects</span>
             </h2>
-            <div className="space-y-6 w-full">
+            <div
+                className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full overflow-y-auto max-h-[60vh] md:max-h-none pr-1 scroll-smooth overscroll-contain"
+            >
                 {projects.map((project, i) => (
                     <div
                         key={project.title}
                         className="border border-border rounded-lg p-8 neon-border hover:bg-secondary/50 transition-colors cursor-pointer group"
                     >
-                        <div className="flex items-start justify-between flex-col md:flex-row gap-4">
+                        <div >
                             <div>
-                <span className="text-muted-foreground text-xs font-body">
-                  0{i + 1}
-                </span>
+                                <span className="text-muted-foreground text-xs font-body">
+                                    0{i + 1}
+                                </span>
                                 <h3 className="font-heading font-semibold text-2xl mt-1 group-hover:neon-text transition-all">
                                     {project.title}
                                 </h3>

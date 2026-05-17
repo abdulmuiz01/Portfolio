@@ -1,6 +1,7 @@
 'use client'
 
 import {motion, useTransform, MotionValue} from 'framer-motion'
+import {useBreakpoint} from "@/hooks/useBreakpoint";
 
 interface TunnelBackgroundProps {
     zoom: MotionValue<number>
@@ -12,7 +13,11 @@ const PERSPECTIVE = 900
 const FAR_FADE = SPACING * 10
 const NEAR_CLIP = 180
 
-const SIZES = [400, 800, 1200, 1600, 2000, 2400]
+const SIZES = {
+    sm: [300,  600,  900,  1200, 1500, 1800],
+    md: [550,  1100, 1650, 2200, 2750, 3300],
+    lg: [800,  1600, 2400, 3200, 4000, 4800],
+}
 
 const COLORS = [
     'var(--primary)',
@@ -23,7 +28,10 @@ const COLORS = [
     'var(--primary)',
 ]
 
-export default function TunnelBackground({zoom}: TunnelBackgroundProps) {
+export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
+    const bp = useBreakpoint()
+    const sizes = SIZES[bp]
+
     return (
         <div
             className="fixed inset-0 z-0 flex items-center justify-center overflow-hidden pointer-events-none"
@@ -32,14 +40,14 @@ export default function TunnelBackground({zoom}: TunnelBackgroundProps) {
                 perspectiveOrigin: '50% 50%',
             }}
         >
-            {Array.from({length: LAYERS}).map((_, i) => (
-                <Layer key={i} index={i} zoom={zoom}/>
+            {Array.from({ length: LAYERS }).map((_, i) => (
+                <Layer key={i} index={i} zoom={zoom} size={sizes[i]} />
             ))}
 
             {/* vanishing-point glow */}
-            <div className="absolute h-40 w-40 rounded-full bg-primary/10 blur-3xl"/>
-            <div className="absolute h-14 w-14 rounded-full bg-primary/20 blur-2xl"/>
-            <div className="absolute h-4 w-4 rounded-full bg-primary/70 blur-sm"/>
+            <div className="absolute h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
+            <div className="absolute h-14 w-14 rounded-full bg-primary/20 blur-2xl" />
+            <div className="absolute h-4 w-4 rounded-full bg-primary/70 blur-sm" />
         </div>
     )
 }
@@ -47,12 +55,13 @@ export default function TunnelBackground({zoom}: TunnelBackgroundProps) {
 function Layer({
                    index,
                    zoom,
+                   size,           // ← new
                }: {
     index: number
     zoom: MotionValue<number>
+    size: number    // ← new
 }) {
     const color = COLORS[index % COLORS.length]
-    const size = SIZES[index % SIZES.length]
     const glowR = 12 + (index % 5) * 6
 
     const transform = useTransform(zoom, (z) => {

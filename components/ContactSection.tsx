@@ -4,15 +4,17 @@ const ContactSection = () => {
             <p className="text-primary font-body text-sm tracking-[0.3em] uppercase mb-8">
                 Contact
             </p>
-            <h2 className="text-4xl md:text-6xl font-heading font-bold mb-8">
+            <h2 className="text-3xl md:text-6xl font-heading font-bold mb-8">
                 Let's <span className="neon-text-purple">connect</span>.
             </h2>
-            <p className="text-muted-foreground font-body text-lg mb-12">
+            <p className="text-muted-foreground font-body mb-12 lg:text-lg">
                 Got a project in mind? I'd love to hear about it.
             </p>
             <a
-                href="mailto:hello@alexchen.dev"
-                className="inline-block border border-primary text-primary px-8 py-3 rounded-lg font-heading text-sm tracking-wider uppercase hover:bg-primary hover:text-primary-foreground transition-all neon-border"
+                href="#"
+                className="inline-block border border-primary text-primary px-8 py-3 rounded-lg
+                font-heading lg:text-lg tracking-wider uppercase
+                hover:bg-primary hover:text-primary-foreground transition-all neon-border"
             >
                 Say Hello
             </a>
