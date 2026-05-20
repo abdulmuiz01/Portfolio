@@ -1,7 +1,7 @@
 'use client'
 
+import {memo} from 'react'
 import {motion, useTransform, MotionValue} from 'framer-motion'
-import {useBreakpoint} from "@/hooks/useBreakpoint";
 
 interface TunnelBackgroundProps {
     zoom: MotionValue<number>
@@ -12,12 +12,10 @@ const SPACING = 250
 const PERSPECTIVE = 900
 const FAR_FADE = SPACING * 10
 const NEAR_CLIP = 180
-
-const SIZES = {
-    sm: [300,  600,  900,  1200, 1500, 1800],
-    md: [550,  1100, 1650, 2200, 2750, 3300],
-    lg: [800,  1600, 2400, 3200, 4000, 4800],
-}
+// Smooth scaling: ~75vw per layer unit, capped at the original lg pixel sizes
+// Without the cap, large viewports (1440px+) produce 6000px+ GPU textures → compositor drop-outs
+const BASE_VW = 75
+const BASE_MAX_PX = 800
 
 const COLORS = [
     'var(--primary)',
@@ -28,10 +26,17 @@ const COLORS = [
     'var(--primary)',
 ]
 
-export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
-    const bp = useBreakpoint()
-    const sizes = SIZES[bp]
+// Precompute per-layer style strings at module level — never recomputed
+const LAYER_STYLES = Array.from({ length: LAYERS }).map((_, i) => {
+    const color = COLORS[i % COLORS.length]
+    const glowR = 12 + (i % 5) * 6
+    return {
+        borderColor: `hsl(${color})`,
+        boxShadow: `0 0 ${glowR}px hsl(${color}), 0 0 ${glowR * 2}px hsl(${color} / 0.35), inset 0 0 ${glowR / 1.5}px hsl(${color} / 0.3)`,
+    }
+})
 
+export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
     return (
         <div
             className="fixed inset-0 z-0 flex items-center justify-center overflow-hidden pointer-events-none"
@@ -41,7 +46,7 @@ export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
             }}
         >
             {Array.from({ length: LAYERS }).map((_, i) => (
-                <Layer key={i} index={i} zoom={zoom} size={sizes[i]} />
+                <Layer key={i} index={i} zoom={zoom} />
             ))}
 
             {/* vanishing-point glow */}
@@ -52,22 +57,19 @@ export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
     )
 }
 
-function Layer({
-                   index,
-                   zoom,
-                   size,           // ← new
-               }: {
+const Layer = memo(function Layer({
+    index,
+    zoom,
+}: {
     index: number
     zoom: MotionValue<number>
-    size: number    // ← new
 }) {
-    const color = COLORS[index % COLORS.length]
-    const glowR = 12 + (index % 5) * 6
+    const layerStyle = LAYER_STYLES[index]
+    const vwSize = `min(${(index + 1) * BASE_VW}vw, ${(index + 1) * BASE_MAX_PX}px)`
 
     const transform = useTransform(zoom, (z) => {
         const zPos = -(index + 1) * SPACING + z * SPACING
         const rotate = index * 15 + z * 65
-
         return `translateZ(${zPos}px) rotateZ(${rotate}deg)`
     })
 
@@ -97,12 +99,11 @@ function Layer({
     })
 
     return (
-
         <motion.div
             className="absolute"
             style={{
-                width: size,
-                height: size,
+                width: vwSize,
+                height: vwSize,
                 transform,
                 opacity,
                 transformStyle: 'preserve-3d',
@@ -111,11 +112,8 @@ function Layer({
         >
             <div
                 className="h-full w-full rounded-sm border text-primary/10 bg-primary/0.5"
-                style={{
-                    borderColor: `hsl(${color})`,
-                    boxShadow: `0 0 ${glowR}px hsl(${color}), 0 0 ${glowR * 2}px hsl(${color} / 0.35), inset 0 0 ${glowR / 1.5}px hsl(${color} / 0.3)`,
-                }}
+                style={layerStyle}
             />
         </motion.div>
     )
-}
+})

@@ -1,6 +1,6 @@
 'use client'
 
-import {useRef, useState, useEffect, JSX} from 'react'
+import {useRef, useState, useEffect, useMemo, useCallback, JSX} from 'react'
 import {motion, useSpring, animate, AnimatePresence} from 'framer-motion'
 
 import HeroSection from '@/components/HeroSection'
@@ -17,64 +17,69 @@ interface Section {
   component: JSX.Element
 }
 
-export default function Page() {
-  const sections: Section[] = [
-    // eslint-disable-next-line react-hooks/immutability
-    {id: 'hero', label: 'Home', component: <HeroSection onNext={() => transitionTo(1)}/>},
-    {id: 'about', label: 'About', component: <AboutSection/>},
-    {id: 'tech', label: 'Tech Stack', component: <TechStackSection/>},
-    {id: 'projects', label: 'Projects', component: <ProjectsSection/>},
-    {id: 'contact', label: 'Contact', component: <div className="flex flex-col justify-center items-center gap-20 "><ContactSection/><Footer/></div>},
-  ]
+const SECTION_COUNT = 5
 
+export default function Page() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const currentIndexRef = useRef(0)
   const isTransitioning = useRef(false)
   const touchStartY = useRef(0)
+  const touchStartX = useRef(0)
 
   const zoom = useSpring(0, {stiffness: 300, damping: 70, mass: 1.1})
 
-  const transitionTo = (nextIndex: number) => {
+  const transitionTo = useCallback((nextIndex: number) => {
     if (
         isTransitioning.current ||
-        nextIndex === currentIndex ||
+        nextIndex === currentIndexRef.current ||
         nextIndex < 0 ||
-        nextIndex >= sections.length
+        nextIndex >= SECTION_COUNT
     ) return
 
     isTransitioning.current = true
+    const fromIndex = currentIndexRef.current
+    let hasSwitched = false
 
     animate(zoom, nextIndex, {
       duration: 0.50,
       ease: [0.32, 0, 0.18, 1],
       onUpdate: (v) => {
-        const mid = (currentIndex + nextIndex) / 2
-        const pastMidpoint =
-            nextIndex > currentIndex ? v >= mid : v <= mid
+        if (hasSwitched) return
+        const mid = (fromIndex + nextIndex) / 2
+        const pastMidpoint = nextIndex > fromIndex ? v >= mid : v <= mid
 
-        if (pastMidpoint && isTransitioning.current) {
+        if (pastMidpoint) {
+          hasSwitched = true
+          currentIndexRef.current = nextIndex
           setCurrentIndex(nextIndex)
         }
       },
       onComplete: () => {
+        currentIndexRef.current = nextIndex
         setCurrentIndex(nextIndex)
         isTransitioning.current = false
       },
     })
-  }
+  }, [zoom])
 
- const touchStartX = useRef(0)
+  const sections: Section[] = useMemo(() => [
+    {id: 'hero', label: 'Home', component: <HeroSection onNext={() => transitionTo(1)}/>},
+    {id: 'about', label: 'About', component: <AboutSection/>},
+    {id: 'tech', label: 'Tech Stack', component: <TechStackSection/>},
+    {id: 'projects', label: 'Projects', component: <ProjectsSection/>},
+    {id: 'contact', label: 'Contact', component: <div className="flex flex-col justify-center items-center gap-20 "><ContactSection/><Footer/></div>},
+  ], [transitionTo])
 
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault()
       if (isTransitioning.current) return
-      if (e.deltaY > 0) transitionTo(currentIndex + 1)
-      else transitionTo(currentIndex - 1)
+      if (e.deltaY > 0) transitionTo(currentIndexRef.current + 1)
+      else transitionTo(currentIndexRef.current - 1)
     }
     window.addEventListener('wheel', handleWheel, {passive: false})
     return () => window.removeEventListener('wheel', handleWheel)
-  }, [currentIndex])
-
+  }, [transitionTo])
 
   useEffect(() => {
     const handleTouchStart = (e: TouchEvent) => {
@@ -86,29 +91,25 @@ export default function Page() {
       const deltaY = touchStartY.current - e.changedTouches[0].clientY
       const deltaX = touchStartX.current - e.changedTouches[0].clientX
 
-      // ignore if neither axis crossed the threshold
       if (Math.abs(deltaX) < 50 && Math.abs(deltaY) < 50) return
       if (isTransitioning.current) return
 
-      // pick whichever axis moved more
       if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        // horizontal swipe
-        if (deltaX > 0) transitionTo(currentIndex + 1)  // swipe left → next
-        else transitionTo(currentIndex - 1)               // swipe right → prev
+        if (deltaX > 0) transitionTo(currentIndexRef.current + 1)
+        else transitionTo(currentIndexRef.current - 1)
       } else {
-        // vertical swipe (keeps existing behaviour)
-        if (deltaY > 0) transitionTo(currentIndex + 1)
-        else transitionTo(currentIndex - 1)
+        if (deltaY > 0) transitionTo(currentIndexRef.current + 1)
+        else transitionTo(currentIndexRef.current - 1)
       }
     }
 
-    window.addEventListener('touchstart', handleTouchStart, { passive: true })
-    window.addEventListener('touchend', handleTouchEnd, { passive: true })
+    window.addEventListener('touchstart', handleTouchStart, {passive: true})
+    window.addEventListener('touchend', handleTouchEnd, {passive: true})
     return () => {
       window.removeEventListener('touchstart', handleTouchStart)
       window.removeEventListener('touchend', handleTouchEnd)
     }
-  }, [currentIndex])
+  }, [transitionTo])
 
   return (
       <div className="fixed inset-0 overflow-hidden bg-background text-foreground ">
