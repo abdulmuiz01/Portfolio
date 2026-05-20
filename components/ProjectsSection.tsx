@@ -1,3 +1,8 @@
+import {MagneticCard} from "@/components/magnetic/MagneticCard";
+import {SpotlightText} from "@/components/Spotlight";
+import {SpotlightGrid, SpotlightCard} from "@/components/Spotlight";
+import {MagneticText} from "@/components/magnetic/MagneticText";
+
 const projects = [
     {
         title: "CloudSync",
@@ -18,47 +23,57 @@ const projects = [
 
 const ProjectsSection = () => {
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-6 max-w-3xl mx-auto">
-            <p className="text-primary font-body text-sm tracking-[0.3em] uppercase mb-8">
-                Work
-            </p>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-16 text-center">
-                Featured <span className="neon-text">Projects</span>
-            </h2>
-            <div
-                className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full overflow-y-auto max-h-[60vh] md:max-h-none pr-1 scroll-smooth overscroll-contain"
+        <div className="flex flex-col items-center justify-center h-screen py-16 w-full mx-auto">
+            <div className="flex flex-col items-center justify-center gap-5 md:gap-10">
+                <MagneticText
+                    strength={0.5}
+                    className="text-lg font-bold"
+                >
+                    <span className="neon-text uppercase tracking-[0.3em]">Work</span>
+                </MagneticText>
+                <h2 className="flex gap-2 text-3xl md:text-6xl font-heading font-bold mb-8 md:mb-0 text-center">
+                    <SpotlightText color="primary">Featured Projects</SpotlightText>
+                </h2>
+            </div>
+            <SpotlightGrid
+                className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full px-5
+                overflow-y-auto max-h-[60vh] md:h-1/2 scroll-smooth overscroll-contain no-scrollbar items-center"
+                style={{WebkitOverflowScrolling: "touch"}}
+                onTouchStart={(e) => e.stopPropagation()}
+                onTouchEnd={(e) => e.stopPropagation()}
             >
                 {projects.map((project, i) => (
-                    <div
+                    <MagneticCard
                         key={project.title}
-                        className="border border-border rounded-lg p-8 neon-border hover:bg-secondary/50 transition-colors cursor-pointer group"
+                        strength={0.45}
+                        className="rounded-3xl h-full md:h-1/2 border border-background/10 bg-background/5 backdrop-blur-sm
+                                   dark:border-foreground/10 dark:bg-foreground/5 cursor-pointer"
                     >
-                        <div >
-                            <div>
-                                <span className="text-muted-foreground text-xs font-body">
-                                    0{i + 1}
-                                </span>
-                                <h3 className="font-heading font-semibold text-2xl mt-1 group-hover:neon-text transition-all">
-                                    {project.title}
-                                </h3>
-                                <p className="text-muted-foreground font-body text-sm mt-2">
-                                    {project.description}
-                                </p>
-                            </div>
-                            <div className="flex gap-2 flex-wrap">
+                        <SpotlightCard color="primary" radius={280} className="p-5 rounded-3xl h-full flex flex-col">
+                            <span className="text-muted-foreground text-xs font-body">
+                                0{i + 1}
+                            </span>
+                            <h3 className="font-heading font-semibold text-lg mt-1 mb-3 neon-text">
+                                {project.title}
+                            </h3>
+                            <p className="text-muted-foreground font-body text-sm leading-relaxed mb-4">
+                                {project.description}
+                            </p>
+                            <ul className="flex flex-wrap gap-2 mt-auto">
                                 {project.tags.map((tag) => (
-                                    <span
+                                    <li
                                         key={tag}
-                                        className="text-xs font-body px-3 py-1 rounded-full border border-border text-muted-foreground"
+                                        className="text-muted-foreground font-body text-xs flex items-center gap-1.5"
                                     >
-                    {tag}
-                  </span>
+                                        <span className="w-1 h-1 rounded-full bg-primary flex-shrink-0"/>
+                                        {tag}
+                                    </li>
                                 ))}
-                            </div>
-                        </div>
-                    </div>
+                            </ul>
+                        </SpotlightCard>
+                    </MagneticCard>
                 ))}
-            </div>
+            </SpotlightGrid>
         </div>
     );
 };

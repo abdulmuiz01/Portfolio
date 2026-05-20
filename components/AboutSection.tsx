@@ -1,6 +1,8 @@
 import {motion} from "framer-motion";
 import Image from "next/image";
 import {MagneticCard} from "@/components/magnetic/MagneticCard";
+import {SpotlightText} from "@/components/Spotlight";
+import {MagneticText} from "@/components/magnetic/MagneticText";
 
 const AboutSection = () => {
     return (
@@ -12,9 +14,10 @@ const AboutSection = () => {
                 className="flex justify-center"
             >
                 <MagneticCard
-                    as="article"
                     strength={0.45}
-                    className="rounded-3xl borderborder-white/10bg-white/5p-8backdrop-blur-xl"
+                    className="rounded-full border-4 border-background/10 bg-background/5 backdrop-blur-xl
+                               dark:border-foreground/10 dark:bg-foreground/5
+                              "
                 >
                     <Image
                         src="/profile.png"
@@ -25,12 +28,17 @@ const AboutSection = () => {
                     />
                 </MagneticCard>
             </motion.div>
-            <div className="flex flex-col items-center justify-center px-6 max-w-3xl ">
-                <p className="text-primary font-body text-sm tracking-[0.3em] uppercase mb-8">
-                    About
-                </p>
+            <div className="flex flex-col gap-5 items-center justify-center px-6 max-w-3xl">
+                <MagneticText
+                    strength={0.5}
+                    className="text-lg font-bold"
+                >
+                    <span className="neon-text uppercase tracking-[0.3em]">About</span>
+                </MagneticText>
                 <h2 className="text-3xl md:text-5xl font-heading font-bold mb-8 text-center">
-                    Passione per il <span className="neon-text">web</span>.
+                    <SpotlightText>
+                    Passione per il web.
+                    </SpotlightText>
                 </h2>
                 <p className="text-muted-foreground font-body leading-relaxed text-center max-w-4xl lg:text-lg">
                     Sono un Web Developer con una forte passione per la tecnologia e lo sviluppo web full stack.

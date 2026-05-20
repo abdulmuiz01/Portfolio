@@ -13,22 +13,28 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
             <motion.p
                 initial={{opacity: 0}}
                 animate={{opacity: 1}}
-                transition={{delay: 0.2}}
+                transition={{delay: 0.2, duration: 1}}
                 className="text-muted-foreground font-body text-sm tracking-[0.3em] uppercase mb-6 "
             >
                 Full Stack Developer
             </motion.p>
-            <MagneticText
-                strength={0.15}
-                className="text-9xl font-bold"
+            <motion.div
+                initial={{opacity: 0}}
+                animate={{opacity: 1}}
+                transition={{delay: 0.2, duration: 1}}
             >
-                <span className="neon-text">Abdul Muiz</span>{" "}
-                <span className="text-foreground">Khan</span>
-            </MagneticText>
+                <MagneticText
+                    strength={0.15}
+                    className="text-9xl font-bold"
+                >
+                    <span className="neon-text">Abdul Muiz</span>{" "}
+                    <span className="text-foreground">Khan</span>
+                </MagneticText>
+            </motion.div>
             <motion.p
                 initial={{opacity: 0}}
                 animate={{opacity: 1}}
-                transition={{delay: 0.8}}
+                transition={{delay: 0.8, duration: 2}}
                 className="mt-8 text-muted-foreground font-body text-lg max-w-md"
             >
                 <SpotlightText>
@@ -45,7 +51,7 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                     onClick={onNext}
                     className="flex items-center justify-center gap-5 rounded-full w-1/2 h-20
                                border border-border px-7 py-4 font-mono text-lg uppercase
-                               text-foreground transition-colors hover:border-primary/60 hover:text-primary/90"
+                               text-foreground transition-colors duration-300 hover:border-primary/60 hover:text-primary/60"
                 >
                     Welcome
                     <span className="">↓</span>
