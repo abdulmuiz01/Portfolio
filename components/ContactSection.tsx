@@ -1,6 +1,7 @@
 import {MagneticButton} from "@/components/magnetic/MagneticButton";
 import {SpotlightText} from "@/components/Spotlight";
 import {MagneticText} from "@/components/magnetic/MagneticText";
+import {TextScramble} from "@/components/TextScramble";
 
 const ContactSection = () => {
     return (
@@ -10,7 +11,7 @@ const ContactSection = () => {
                     strength={0.5}
                     className="text-lg font-bold"
                 >
-                    <span className="neon-text uppercase tracking-[0.3em]">Contact</span>
+                    <TextScramble text="Contact" trigger="view" className="neon-text uppercase tracking-[0.3em]" />
                 </MagneticText>
                 <h2 className="flex gap-2 text-3xl md:text-6xl font-heading font-bold text-center">
                     <SpotlightText color="accent">Let&#39;s connect.</SpotlightText>
@@ -24,7 +25,7 @@ const ContactSection = () => {
                 font-heading lg:text-lg tracking-wider uppercase
                 hover:bg-primary hover:text-primary-foreground neon-border"
             >
-                Say Hello
+                <TextScramble text="Say Hello" trigger="view" />
             </MagneticButton>
             <div className="flex gap-8">
                 {["GitHub", "LinkedIn", "Twitter"].map((link) => (

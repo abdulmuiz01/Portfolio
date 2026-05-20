@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 import { Magnetic } from "@/components/magnetic/Magnetic";
 
@@ -8,8 +8,9 @@ type CardTag =
     | "article";
 
 interface MagneticCardProps {
-    children: ReactNode;
+    children?: ReactNode;
     className?: string;
+    style?: CSSProperties;
     strength?: number;
     as?: CardTag;
     onClick?: () => void;
@@ -18,6 +19,7 @@ interface MagneticCardProps {
 export function MagneticCard({
                                  children,
                                  className,
+                                 style,
                                  strength = 0.35,
                                  as = "div",
                                  onClick,
@@ -28,6 +30,7 @@ export function MagneticCard({
             strength={strength}
             onClick={onClick}
             className={className}
+            style={style}
         >
             {children}
         </Magnetic>

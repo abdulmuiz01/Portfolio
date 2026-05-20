@@ -1,5 +1,6 @@
 import {
     useRef,
+    type CSSProperties,
     type ReactNode,
     type MouseEvent,
     type ElementType,
@@ -24,8 +25,9 @@ type AsTag =
     | "a";
 
 interface MagneticProps {
-    children: ReactNode;
+    children?: ReactNode;
     className?: string;
+    style?: CSSProperties;
     strength?: number;
     as?: AsTag;
     href?: string;
@@ -35,6 +37,7 @@ interface MagneticProps {
 export function Magnetic({
                              children,
                              className,
+                             style,
                              strength = 0.35,
                              as = "div",
                              href,
@@ -101,6 +104,7 @@ export function Magnetic({
             onMouseMove={onMove}
             onMouseLeave={onLeave}
             style={{
+                ...style,
                 x: sx,
                 y: sy,
             }}

@@ -2,6 +2,7 @@
 
 import {memo} from 'react'
 import {motion, useTransform, MotionValue} from 'framer-motion'
+import {MagneticCard} from "@/components/magnetic/MagneticCard";
 
 interface TunnelBackgroundProps {
     zoom: MotionValue<number>
@@ -110,7 +111,7 @@ const Layer = memo(function Layer({
                 willChange: 'transform, opacity',
             }}
         >
-            <div
+            <MagneticCard
                 className="h-full w-full rounded-sm border text-primary/10 bg-primary/0.5"
                 style={layerStyle}
             />

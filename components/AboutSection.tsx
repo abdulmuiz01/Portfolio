@@ -3,6 +3,8 @@ import Image from "next/image";
 import {MagneticCard} from "@/components/magnetic/MagneticCard";
 import {SpotlightText} from "@/components/Spotlight";
 import {MagneticText} from "@/components/magnetic/MagneticText";
+import {TextScramble} from "@/components/TextScramble";
+import {TiltCard} from "@/components/TiltCard";
 
 const AboutSection = () => {
     return (
@@ -19,13 +21,15 @@ const AboutSection = () => {
                                dark:border-foreground/10 dark:bg-foreground/5
                               "
                 >
-                    <Image
-                        src="/profile.png"
-                        width={500}
-                        height={500}
-                        alt="Picture of the author"
-                        className="rounded-full w-52 h-52 md:w-72 md:h-72 lg:w-96 lg:h-96 "
-                    />
+                    <TiltCard className="rounded-full">
+                        <Image
+                            src="/profile.png"
+                            width={500}
+                            height={500}
+                            alt="Picture of the author"
+                            className="rounded-full w-52 h-52 md:w-72 md:h-72 lg:w-96 lg:h-96 block"
+                        />
+                    </TiltCard>
                 </MagneticCard>
             </motion.div>
             <div className="flex flex-col gap-5 items-center justify-center px-6 max-w-3xl">
@@ -33,7 +37,7 @@ const AboutSection = () => {
                     strength={0.5}
                     className="text-lg font-bold"
                 >
-                    <span className="neon-text uppercase tracking-[0.3em]">About</span>
+                    <TextScramble text="About" trigger="view" className="neon-text uppercase tracking-[0.3em]" />
                 </MagneticText>
                 <h2 className="text-3xl md:text-5xl font-heading font-bold mb-8 text-center">
                     <SpotlightText>

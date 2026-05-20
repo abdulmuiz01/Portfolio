@@ -2,6 +2,7 @@ import {motion} from "framer-motion";
 import {MagneticButton} from "./magnetic/MagneticButton";
 import {MagneticText} from "@/components/magnetic/MagneticText";
 import {SpotlightText} from "@/components/Spotlight";
+import {TextScramble} from "@/components/TextScramble";
 
 interface HeroSectionProps {
     onNext: () => void
@@ -16,7 +17,7 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                 transition={{delay: 0.2, duration: 1}}
                 className="text-muted-foreground font-body text-sm tracking-[0.3em] uppercase mb-6 "
             >
-                Full Stack Developer
+                <TextScramble text="Full Stack Developer" trigger="mount" delay={300} />
             </motion.p>
             <motion.div
                 initial={{opacity: 0}}
@@ -49,13 +50,13 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
             >
                 <MagneticButton
                     onClick={onNext}
-                    className="flex items-center justify-center gap-5 rounded-full w-1/2 h-20
+                    className="flex items-center justify-center gap-2 rounded-full w-1/2 h-20
                                border border-border px-7 py-4 font-mono text-lg uppercase
                                text-foreground transition-colors duration-300 hover:border-primary/60 hover:text-primary/60
                                hover:dark:bg-foreground/5"
                 >
-                    Welcome
-                    <span className="">↓</span>
+                    <TextScramble text="Welcome" trigger="mount" delay={900} />
+                    <TextScramble text="↓" trigger="mount" delay={900} />
                 </MagneticButton>
 
             </motion.div>
