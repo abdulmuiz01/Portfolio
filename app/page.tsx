@@ -26,7 +26,6 @@ export default function Page() {
   const currentIndexRef = useRef(0)
   const isTransitioning = useRef(false)
   const touchStartY = useRef(0)
-  const touchStartX = useRef(0)
 
   const zoom = useSpring(0, {stiffness: 300, damping: 70, mass: 1.1})
 
@@ -86,7 +85,6 @@ export default function Page() {
   useEffect(() => {
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY.current = e.touches[0].clientY
-      touchStartX.current = e.touches[0].clientX
     }
 
     const handleTouchEnd = (e: TouchEvent) => {
@@ -94,18 +92,13 @@ export default function Page() {
       if (dragState.active) { dragState.active = false; return; }
 
       const deltaY = touchStartY.current - e.changedTouches[0].clientY
-      const deltaX = touchStartX.current - e.changedTouches[0].clientX
 
-      if (Math.abs(deltaX) < 50 && Math.abs(deltaY) < 50) return
+      // Only respond to vertical swipes; ignore horizontal gestures
+      if (Math.abs(deltaY) < 50) return
       if (isTransitioning.current) return
 
-      if (Math.abs(deltaX) > Math.abs(deltaY)) {
-        if (deltaX > 0) transitionTo(currentIndexRef.current + 1)
-        else transitionTo(currentIndexRef.current - 1)
-      } else {
-        if (deltaY > 0) transitionTo(currentIndexRef.current + 1)
-        else transitionTo(currentIndexRef.current - 1)
-      }
+      if (deltaY > 0) transitionTo(currentIndexRef.current + 1)
+      else transitionTo(currentIndexRef.current - 1)
     }
 
     window.addEventListener('touchstart', handleTouchStart, {passive: true})
@@ -117,8 +110,7 @@ export default function Page() {
   }, [transitionTo])
 
   return (
-      <div className="fixed inset-0 overflow-hidden bg-background text-foreground ">
-        {/*<ParticlesBackground />*/}
+      <div className="fixed inset-0 overflow-hidden touch-none bg-background text-foreground">
         <div className="fixed top-6 left-6 z-50">
         <span className="text-xs md:text-sm lg:text-md font-body text-muted-foreground tracking-[0.2em] uppercase">
           {sections[currentIndex]?.label}
@@ -157,28 +149,38 @@ export default function Page() {
               </div>
             </motion.div>
           </AnimatePresence>
-          {/* Side nav dots */}
-          {/*<div className="fixed right-6 top-1/2 z-50 flex -translate-y-1/2 flex-col gap-4">*/}
-          <div className="flex justify-center items-center fixed bottom-20 z-50  gap-4">
-            {sections.map((section, idx) => (
-                <button
-                    key={section.id}
-                    onClick={() => transitionTo(idx)}
-                    className={`h-2 w-2 rounded-full transition-all duration-500 ${
-                        idx === currentIndex
-                            ? 'scale-150 bg-primary shadow-[0_0_20px] shadow-primary'
-                            : 'bg-white/20 hover:scale-125 hover:bg-white/50'
-                    }`}
-                />
-            ))}
+          {/* Nav dots — top-right on mobile, right-center on desktop */}
+          <div className="fixed right-4 top-4 z-50 flex flex-col items-end gap-2 md:top-1/2 md:-translate-y-1/2 md:items-center">
+            {/* Counter: visible only on mobile, sits above the dots */}
+            <span className="font-heading text-xs text-muted-foreground md:hidden">
+              <span className="neon-text">{String(currentIndex + 1).padStart(2, "0")}</span>
+              <span className="mx-1">/</span>
+              {String(sections.length).padStart(2, "0")}
+            </span>
+            {/* Dots: row on mobile, column on desktop */}
+            <div className="flex flex-row gap-2 md:flex-col md:gap-3">
+              {sections.map((section, idx) => (
+                  <button
+                      key={section.id}
+                      onClick={() => transitionTo(idx)}
+                      aria-label={section.label}
+                      className={`h-2 w-2 rounded-full transition-all duration-500 ${
+                          idx === currentIndex
+                              ? 'scale-150 bg-primary shadow-[0_0_20px] shadow-primary'
+                              : 'bg-white/20 hover:scale-125 hover:bg-white/50'
+                      }`}
+                  />
+              ))}
+            </div>
           </div>
         </div>
-        <div className="fixed bottom-6 left-6 z-50">
-        <span className="text-xs md:text-sm lg:text-md font-heading text-muted-foreground">
-          <span className="neon-text">{String(currentIndex + 1).padStart(2, "0")}</span>
-          <span className="mx-1">/</span>
-          {String(sections.length).padStart(2, "0")}
-        </span>
+        {/* Counter on desktop only — stays bottom-left */}
+        <div className="fixed bottom-6 left-6 z-50 hidden md:block">
+          <span className="text-sm font-heading text-muted-foreground">
+            <span className="neon-text">{String(currentIndex + 1).padStart(2, "0")}</span>
+            <span className="mx-1">/</span>
+            {String(sections.length).padStart(2, "0")}
+          </span>
         </div>
       </div>
   )

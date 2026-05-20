@@ -7,7 +7,6 @@ import React, {
   type MouseEvent,
   type TouchEvent,
 } from "react";
-import { dragState } from "@/lib/dragState";
 
 // ---------------------------------------------------------------------------
 // Single-card Spotlight — local mouse/touch tracking on one element
@@ -142,9 +141,6 @@ export function SpotlightGrid({
   const onTouchEnd = (e: TouchEvent) => {
     // Push spotlight off-screen so it hides when finger lifts
     broadcast(-99999, -99999);
-    // Reset the drag flag here because stopPropagation (called via onTouchEndProp)
-    // prevents page.tsx's window-level touchend handler from ever firing for grid cards
-    dragState.active = false;
     onTouchEndProp?.(e);
   };
 

@@ -55,7 +55,7 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                                text-foreground transition-colors duration-300 hover:border-primary/60 hover:text-primary/60
                                hover:dark:bg-foreground/5"
                 >
-                    <TextScramble text="Welcome" trigger="mount" delay={900} />
+                    <TextScramble text="Scroll" trigger="mount" delay={900} />
                     <TextScramble text="↓" trigger="mount" delay={900} />
                 </MagneticButton>
 

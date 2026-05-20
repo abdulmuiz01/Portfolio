@@ -25,8 +25,9 @@ const projects = [
 
 const ProjectsSection = () => {
     return (
-        <div className="flex flex-col items-center justify-center h-screen py-16 w-full mx-auto">
-            <div className="flex flex-col items-center justify-center gap-fluid-sm">
+        <div className="flex flex-col items-center justify-center h-screen md:py-16 w-full mx-auto">
+            <div className="flex flex-col
+            items-center justify-center gap-fluid-sm">
                 <MagneticText
                     strength={0.5}
                     className="text-lg font-bold"
@@ -40,10 +41,8 @@ const ProjectsSection = () => {
             <TiltCard className="h-1/2 w-full rounded-3xl">
                 <SpotlightGrid
                     className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full px-[clamp(1rem,5vw,5rem)]
-                overflow-y-auto max-h-[60vh] md:h-full scroll-smooth overscroll-contain no-scrollbar items-center"
+                overflow-y-auto max-h-[60vh] md:h-full scroll-smooth overscroll-contain no-scrollbar items-center touch-pan-y"
                     style={{WebkitOverflowScrolling: "touch"}}
-                    onTouchStart={(e) => e.stopPropagation()}
-                    onTouchEnd={(e) => e.stopPropagation()}
                 >
                     {projects.map((project, i) => (
                         <MagneticCard

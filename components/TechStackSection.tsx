@@ -13,7 +13,7 @@ const skills = [
 
 const SkillsSection = () => {
     return (
-        <div className="flex flex-col items-center justify-center h-screen py-16 w-full mx-auto">
+        <div className="flex flex-col items-center justify-center h-screen md:py-16 w-full mx-auto">
             <div className="flex flex-col items-center justify-center gap-fluid-sm">
                 <MagneticText
                     strength={0.5}
@@ -28,10 +28,8 @@ const SkillsSection = () => {
             <TiltCard className="h-1/2 w-full rounded-3xl">
                 <SpotlightGrid
                     className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full px-[clamp(1rem,5vw,5rem)]
-                overflow-y-auto max-h-[60vh] md:h-1/2 scroll-smooth overscroll-contain no-scrollbar items-center"
+                overflow-y-auto max-h-[60vh] md:h-1/2 scroll-smooth overscroll-contain no-scrollbar items-center touch-pan-y"
                     style={{WebkitOverflowScrolling: "touch"}}
-                    onTouchStart={(e) => e.stopPropagation()}
-                    onTouchEnd={(e) => e.stopPropagation()}
                 >
                     {skills.map((group, i) => (
                         <MagneticCard
@@ -41,8 +39,8 @@ const SkillsSection = () => {
                                    dark:border-foreground/10 dark:bg-foreground/5 cursor-pointer"
                         >
                             <SpotlightCard color="accent" radius={280} className="p-5 rounded-3xl h-full flex flex-col">
-                            <span aria-hidden className="pointer-events-none absolute inset-x-6 top-0 h-px origin-left scale-x-0 bg-gradient-to-r from-transparent via-accent to-transparent transition-transform duration-500 group-hover:scale-x-100 group-active:scale-x-100 group-data-[touching]:scale-x-100" />
-                            <span className="text-muted-foreground text-xs font-body">
+                                <span aria-hidden className="pointer-events-none absolute inset-x-6 top-0 h-px origin-left scale-x-0 bg-gradient-to-r from-transparent via-accent to-transparent transition-transform duration-500 group-hover:scale-x-100 group-active:scale-x-100 group-data-[touching]:scale-x-100" />
+                                <span className="text-muted-foreground text-xs font-body">
                                 0{i + 1}
                             </span>
                                 <h3 className="font-heading font-semibold text-lg mt-1 mb-3 neon-text">
