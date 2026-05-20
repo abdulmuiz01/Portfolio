@@ -10,6 +10,7 @@ import ProjectsSection from '@/components/ProjectsSection'
 import ContactSection from '@/components/ContactSection'
 import Footer from '@/components/Footer'
 import TunnelBackground from '@/components/TunnelBackground'
+import {ScrollProgress} from '@/components/ScrollProgress'
 
 interface Section {
   id: string
@@ -119,6 +120,7 @@ export default function Page() {
           {sections[currentIndex]?.label}
         </span>
         </div>
+        <ScrollProgress zoom={zoom} total={SECTION_COUNT} />
         <TunnelBackground zoom={zoom}/>
 
         <div className="relative flex justify-center z-30 h-full w-full ">
