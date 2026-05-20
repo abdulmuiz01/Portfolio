@@ -1,5 +1,6 @@
 import {motion} from "framer-motion";
 import Image from "next/image";
+import {MagneticCard} from "@/components/magnetic/MagneticCard";
 
 const AboutSection = () => {
     return (
@@ -10,13 +11,19 @@ const AboutSection = () => {
                 transition={{duration: 0.6}}
                 className="flex justify-center"
             >
-                <Image
-                    src="/profile.jpg"
-                    width={500}
-                    height={500}
-                    alt="Picture of the author"
-                    className="rounded-full w-52 h-52 md:w-72 md:h-72 lg:w-96 lg:h-96 "
-                />
+                <MagneticCard
+                    as="article"
+                    strength={0.45}
+                    className="rounded-3xl borderborder-white/10bg-white/5p-8backdrop-blur-xl"
+                >
+                    <Image
+                        src="/profile.png"
+                        width={500}
+                        height={500}
+                        alt="Picture of the author"
+                        className="rounded-full w-52 h-52 md:w-72 md:h-72 lg:w-96 lg:h-96 "
+                    />
+                </MagneticCard>
             </motion.div>
             <div className="flex flex-col items-center justify-center px-6 max-w-3xl ">
                 <p className="text-primary font-body text-sm tracking-[0.3em] uppercase mb-8">

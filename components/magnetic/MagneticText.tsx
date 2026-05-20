@@ -1,20 +1,34 @@
+import type { ReactNode } from "react";
+
 import { Magnetic } from "@/components/magnetic/Magnetic";
 
-export function MagneticText() {
+type TextTag =
+    | "span"
+    | "p"
+    | "h1"
+    | "h2"
+    | "h3";
+
+interface MagneticTextProps {
+    children: ReactNode;
+    className?: string;
+    strength?: number;
+    as?: TextTag;
+}
+
+export function MagneticText({
+                                 children,
+                                 className,
+                                 strength = 0.2,
+                                 as = "h1",
+                             }: MagneticTextProps) {
     return (
         <Magnetic
-            as="h1"
-            strength={0.25}
-            className="
-                text-6xl
-                md:text-8xl
-                font-bold
-                tracking-tight
-                cursor-default
-                select-none
-            "
+            as={as}
+            strength={strength}
+            className={className}
         >
-            Magnetic Text
+            {children}
         </Magnetic>
     );
 }

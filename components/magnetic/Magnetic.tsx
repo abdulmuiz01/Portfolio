@@ -18,6 +18,8 @@ type AsTag =
     | "h1"
     | "h2"
     | "h3"
+    | "section"
+    | "article"
     | "button"
     | "a";
 
@@ -83,6 +85,8 @@ export function Magnetic({
         h1: motion.h1,
         h2: motion.h2,
         h3: motion.h3,
+        section: motion.section,
+        article: motion.article,
         button: motion.button,
         a: motion.a,
     };

@@ -1,6 +1,7 @@
 import {motion} from "framer-motion";
-import {ArrowDown} from "lucide-react";
 import {MagneticButton} from "./magnetic/MagneticButton";
+import {MagneticText} from "@/components/magnetic/MagneticText";
+import {SpotlightText} from "@/components/Spotlight";
 
 interface HeroSectionProps {
     onNext: () => void
@@ -17,28 +18,28 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
             >
                 Full Stack Developer
             </motion.p>
-            <motion.h1
-                initial={{opacity: 0, y: 20}}
-                animate={{opacity: 1, y: 0}}
-                transition={{delay: 0.4, duration: 0.8}}
-                className="text-6xl md:text-8xl lg:text-9xl font-heading font-bold tracking-tight leading-none"
+            <MagneticText
+                strength={0.15}
+                className="text-9xl font-bold"
             >
                 <span className="neon-text">Abdul Muiz</span>{" "}
                 <span className="text-foreground">Khan</span>
-            </motion.h1>
+            </MagneticText>
             <motion.p
                 initial={{opacity: 0}}
                 animate={{opacity: 1}}
                 transition={{delay: 0.8}}
                 className="mt-8 text-muted-foreground font-body text-lg max-w-md"
             >
-                Building digital experiences from front to back.
+                <SpotlightText>
+                    Building digital experiences from front to back.
+                </SpotlightText>
             </motion.p>
             <motion.div
                 initial={{opacity: 0, y: 10}}
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.6, delay: 0.7}}
-                className="relative z-10 mt-10 flex flex-wrap items-center justify-center gap-4 w-1/2"
+                className="relative z-10 mt-10 flex flex-wrap items-center justify-center gap-4 w-full"
             >
                 <MagneticButton
                     onClick={onNext}

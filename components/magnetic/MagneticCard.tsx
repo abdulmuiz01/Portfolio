@@ -1,30 +1,35 @@
+import type { ReactNode } from "react";
+
 import { Magnetic } from "@/components/magnetic/Magnetic";
 
-export function MagneticCard() {
+type CardTag =
+    | "div"
+    | "section"
+    | "article";
+
+interface MagneticCardProps {
+    children: ReactNode;
+    className?: string;
+    strength?: number;
+    as?: CardTag;
+    onClick?: () => void;
+}
+
+export function MagneticCard({
+                                 children,
+                                 className,
+                                 strength = 0.35,
+                                 as = "div",
+                                 onClick,
+                             }: MagneticCardProps) {
     return (
         <Magnetic
-            as="div"
-            strength={0.4}
-            className="
-                w-80
-                rounded-3xl
-                border
-                border-white/10
-                bg-white/5
-                backdrop-blur-xl
-                p-8
-                transition-shadow
-                hover:shadow-2xl
-            "
+            as={as}
+            strength={strength}
+            onClick={onClick}
+            className={className}
         >
-            <h3 className="text-2xl font-semibold mb-3">
-                Magnetic Card
-            </h3>
-
-            <p className="text-muted-foreground leading-relaxed">
-                This div smoothly follows the cursor using
-                Framer Motion springs.
-            </p>
+            {children}
         </Magnetic>
     );
 }
