@@ -44,24 +44,24 @@ const AboutSection = () => {
                                 width={500}
                                 height={500}
                                 alt="Picture of the author"
-                                className="rounded-full w-52 h-52 md:w-72 md:h-72 lg:w-96 lg:h-96 block"
+                                className="rounded-full size-fluid-avatar block"
                             />
                         </TiltCard>
                     </MagneticCard>
             </motion.div>
-            <div className="flex flex-col gap-5 items-center justify-center px-6 max-w-3xl">
+            <div className="flex flex-col gap-fluid-sm items-center justify-center px-6 max-w-3xl">
                 <MagneticText
                     strength={0.5}
                     className="text-lg font-bold"
                 >
                     <TextScramble text="About" trigger="view" className="neon-text uppercase tracking-[0.3em]"/>
                 </MagneticText>
-                <h2 className="text-3xl md:text-5xl font-heading font-bold mb-8 text-center">
+                <h2 className="text-fluid-2xl font-heading font-bold mb-8 text-center">
                     <SpotlightText>
                         Passione per il web.
                     </SpotlightText>
                 </h2>
-                <p className="text-muted-foreground font-body leading-relaxed text-center max-w-4xl lg:text-lg">
+                <p className="text-muted-foreground font-body leading-relaxed text-center max-w-4xl text-fluid-sm">
                     Sono un Web Developer con una forte passione per la tecnologia e lo sviluppo web full stack.
                     Amo creare interfacce intuitive e soluzioni digitali che migliorano la vita delle persone.
                 </p>

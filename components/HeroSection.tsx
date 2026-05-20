@@ -15,7 +15,7 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                 initial={{opacity: 0}}
                 animate={{opacity: 1}}
                 transition={{delay: 0.2, duration: 1}}
-                className="text-muted-foreground font-body text-sm tracking-[0.3em] uppercase mb-6 "
+                className="text-muted-foreground font-body text-fluid-sm tracking-[0.3em] uppercase mb-6 "
             >
                 <TextScramble text="Full Stack Developer" trigger="mount" delay={300} />
             </motion.p>
@@ -26,7 +26,7 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
             >
                 <MagneticText
                     strength={0.15}
-                    className="text-9xl font-bold"
+                    className="text-fluid-hero font-bold"
                 >
                     <span className="neon-text">Abdul Muiz</span>{" "}
                     <span className="text-foreground">Khan</span>
@@ -36,7 +36,7 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                 initial={{opacity: 0}}
                 animate={{opacity: 1}}
                 transition={{delay: 0.8, duration: 2}}
-                className="mt-8 text-muted-foreground font-body text-lg max-w-md"
+                className="mt-8 text-muted-foreground font-body text-fluid-base w-fit"
             >
                 <SpotlightText>
                     Building digital experiences from front to back.
@@ -46,12 +46,12 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                 initial={{opacity: 0, y: 10}}
                 animate={{opacity: 1, y: 0}}
                 transition={{duration: 0.6, delay: 0.7}}
-                className="relative z-10 mt-10 flex flex-wrap items-center justify-center gap-4 w-full"
+                className="relative z-10 mt-[clamp(1.25rem,3vw,2.5rem)] flex flex-wrap items-center justify-center gap-4 w-full"
             >
                 <MagneticButton
                     onClick={onNext}
-                    className="flex items-center justify-center gap-2 rounded-full w-1/2 h-20
-                               border border-border px-7 py-4 font-mono text-lg uppercase
+                    className="flex items-center justify-center gap-2 rounded-full w-[clamp(8rem,30vw,50%)] h-20
+                               border border-border px-7 py-4 font-mono text-fluid-sm uppercase
                                text-foreground transition-colors duration-300 hover:border-primary/60 hover:text-primary/60
                                hover:dark:bg-foreground/5"
                 >

@@ -26,20 +26,20 @@ const projects = [
 const ProjectsSection = () => {
     return (
         <div className="flex flex-col items-center justify-center h-screen py-16 w-full mx-auto">
-            <div className="flex flex-col items-center justify-center gap-5 md:gap-10">
+            <div className="flex flex-col items-center justify-center gap-fluid-sm">
                 <MagneticText
                     strength={0.5}
                     className="text-lg font-bold"
                 >
                     <TextScramble text="Work" trigger="view" className="neon-text uppercase tracking-[0.3em]"/>
                 </MagneticText>
-                <h2 className="flex gap-2 text-3xl md:text-6xl font-heading font-bold mb-8 md:mb-0 text-center">
+                <h2 className="flex gap-2 text-fluid-3xl font-heading font-bold mb-[clamp(0rem,2.5vw,2rem)] text-center">
                     <SpotlightText color="primary">Featured Projects</SpotlightText>
                 </h2>
             </div>
             <TiltCard className="h-1/2 w-full rounded-3xl">
                 <SpotlightGrid
-                    className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full px-20
+                    className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full px-[clamp(1rem,5vw,5rem)]
                 overflow-y-auto max-h-[60vh] md:h-full scroll-smooth overscroll-contain no-scrollbar items-center"
                     style={{WebkitOverflowScrolling: "touch"}}
                     onTouchStart={(e) => e.stopPropagation()}
