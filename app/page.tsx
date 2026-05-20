@@ -1,6 +1,7 @@
 'use client'
 
 import {useRef, useState, useEffect, useMemo, useCallback, JSX} from 'react'
+import { dragState } from '@/lib/dragState'
 import {motion, useSpring, animate, AnimatePresence} from 'framer-motion'
 
 import HeroSection from '@/components/HeroSection'
@@ -89,6 +90,9 @@ export default function Page() {
     }
 
     const handleTouchEnd = (e: TouchEvent) => {
+      // If the user was dragging an interactive element, don't switch sections
+      if (dragState.active) { dragState.active = false; return; }
+
       const deltaY = touchStartY.current - e.changedTouches[0].clientY
       const deltaX = touchStartX.current - e.changedTouches[0].clientX
 

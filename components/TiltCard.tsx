@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, type ReactNode, type MouseEvent } from "react";
+import { useRef, type ReactNode, type MouseEvent, type TouchEvent } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { dragState } from "@/lib/dragState";
 
 interface TiltCardProps {
   children: ReactNode;
@@ -21,26 +22,23 @@ export function TiltCard({ children, className = "" }: TiltCardProps) {
     ([a, b]) => `perspective(1200px) rotateX(${a}deg) rotateY(${b}deg)`
   );
 
-  const onMove = (e: MouseEvent) => {
+  const applyTilt = (cx: number, cy: number) => {
     const el = ref.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    rx.set(-py * 14);
-    ry.set(px * 14);
+    rx.set(-((cy - r.top)  / r.height - 0.5) * 14);
+    ry.set( ((cx - r.left) / r.width  - 0.5) * 14);
   };
 
-  const onLeave = () => {
-    rx.set(0);
-    ry.set(0);
-  };
+  const reset = () => { rx.set(0); ry.set(0); };
 
   return (
     <motion.div
       ref={ref}
-      onMouseMove={onMove}
-      onMouseLeave={onLeave}
+      onMouseMove={(e: MouseEvent) => applyTilt(e.clientX, e.clientY)}
+      onMouseLeave={reset}
+      onTouchMove={(e: TouchEvent) => { dragState.active = true; applyTilt(e.touches[0].clientX, e.touches[0].clientY); }}
+      onTouchEnd={reset}
       style={{ transform }}
       className={className}
     >

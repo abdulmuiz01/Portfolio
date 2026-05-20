@@ -3,6 +3,7 @@ import {
     type CSSProperties,
     type ReactNode,
     type MouseEvent,
+    type TouchEvent,
     type ElementType,
 } from "react";
 
@@ -11,6 +12,8 @@ import {
     useMotionValue,
     useSpring,
 } from "framer-motion";
+
+import { dragState } from "@/lib/dragState";
 
 type AsTag =
     | "div"
@@ -81,6 +84,22 @@ export function Magnetic({
         y.set(0);
     };
 
+    const onTouchMove = (e: TouchEvent<HTMLElement>) => {
+        const el = ref.current;
+        if (!el) return;
+        dragState.active = true;
+        el.setAttribute("data-touching", ""); // activates group-data-[touching]: variants
+        const rect = el.getBoundingClientRect();
+        x.set((e.touches[0].clientX - (rect.left + rect.width  / 2)) * strength);
+        y.set((e.touches[0].clientY - (rect.top  + rect.height / 2)) * strength);
+    };
+
+    const onTouchEnd = () => {
+        ref.current?.removeAttribute("data-touching");
+        x.set(0);
+        y.set(0);
+    };
+
     const componentMap = {
         div: motion.div,
         span: motion.span,
@@ -103,6 +122,8 @@ export function Magnetic({
             onClick={onClick}
             onMouseMove={onMove}
             onMouseLeave={onLeave}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
             style={{
                 ...style,
                 x: sx,

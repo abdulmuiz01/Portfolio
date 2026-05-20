@@ -5,10 +5,12 @@ import React, {
   createContext,
   type ReactNode,
   type MouseEvent,
+  type TouchEvent,
 } from "react";
+import { dragState } from "@/lib/dragState";
 
 // ---------------------------------------------------------------------------
-// Single-card Spotlight — local mouse tracking on one element
+// Single-card Spotlight — local mouse/touch tracking on one element
 // ---------------------------------------------------------------------------
 
 interface SpotlightProps {
@@ -28,12 +30,12 @@ export function Spotlight({
 }: SpotlightProps) {
   const ref = useRef<HTMLDivElement>(null);
 
-  const onMove = (e: MouseEvent) => {
+  const applyCoords = (cx: number, cy: number) => {
     const el = ref.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
-    el.style.setProperty("--mx", `${e.clientX - r.left}px`);
-    el.style.setProperty("--my", `${e.clientY - r.top}px`);
+    el.style.setProperty("--mx", `${cx - r.left}px`);
+    el.style.setProperty("--my", `${cy - r.top}px`);
   };
 
   const colorVar =
@@ -42,7 +44,8 @@ export function Spotlight({
   return (
     <div
       ref={ref}
-      onMouseMove={onMove}
+      onMouseMove={(e: MouseEvent) => applyCoords(e.clientX, e.clientY)}
+      onTouchMove={(e: TouchEvent) => applyCoords(e.touches[0].clientX, e.touches[0].clientY)}
       className={`group/spot relative overflow-hidden ${className}`}
       style={{
         backgroundImage: `radial-gradient(${radius}px circle at var(--mx,50%) var(--my,50%), color-mix(in oklab, ${colorVar} 18%, transparent), transparent 60%)`,
@@ -74,12 +77,12 @@ export function SpotlightText({
 }: SpotlightTextProps) {
   const ref = useRef<HTMLElement>(null);
 
-  const onMove = (e: MouseEvent) => {
+  const applyCoords = (cx: number, cy: number) => {
     const el = ref.current;
     if (!el) return;
     const r = el.getBoundingClientRect();
-    el.style.setProperty("--mx", `${e.clientX - r.left}px`);
-    el.style.setProperty("--my", `${e.clientY - r.top}px`);
+    el.style.setProperty("--mx", `${cx - r.left}px`);
+    el.style.setProperty("--my", `${cy - r.top}px`);
   };
 
   const colorVar =
@@ -89,7 +92,8 @@ export function SpotlightText({
     <Tag
       // @ts-expect-error generic ref on polymorphic tag
       ref={ref}
-      onMouseMove={onMove}
+      onMouseMove={(e: MouseEvent) => applyCoords(e.clientX, e.clientY)}
+      onTouchMove={(e: TouchEvent) => applyCoords(e.touches[0].clientX, e.touches[0].clientY)}
       className={className}
       style={{
         backgroundImage: `radial-gradient(${radius}px circle at var(--mx,50%) var(--my,50%), ${colorVar} 0%, var(--color-foreground) 70%)`,
@@ -107,7 +111,7 @@ export function SpotlightText({
 // SpotlightGrid + SpotlightCard — one shared light source across a grid
 //
 // SpotlightGrid tracks clientX/Y and broadcasts to every SpotlightCard via a
-// stable Set of listeners (no React state → zero re-renders on mouse move).
+// stable Set of listeners (no React state → zero re-renders on mouse/touch move).
 // Each SpotlightCard independently converts client coords to its own local
 // coords and writes them as CSS custom properties.
 // ---------------------------------------------------------------------------
@@ -123,16 +127,37 @@ interface SpotlightGridProps {
   onTouchEnd?: React.TouchEventHandler;
 }
 
-export function SpotlightGrid({ children, className = "", style, onTouchStart, onTouchEnd }: SpotlightGridProps) {
+export function SpotlightGrid({
+  children,
+  className = "",
+  style,
+  onTouchStart,
+  onTouchEnd: onTouchEndProp,
+}: SpotlightGridProps) {
   const listeners = useRef<GridListeners>(new Set());
 
-  const onMove = (e: MouseEvent) => {
-    listeners.current.forEach((fn) => fn(e.clientX, e.clientY));
+  const broadcast = (cx: number, cy: number) =>
+    listeners.current.forEach((fn) => fn(cx, cy));
+
+  const onTouchEnd = (e: TouchEvent) => {
+    // Push spotlight off-screen so it hides when finger lifts
+    broadcast(-99999, -99999);
+    // Reset the drag flag here because stopPropagation (called via onTouchEndProp)
+    // prevents page.tsx's window-level touchend handler from ever firing for grid cards
+    dragState.active = false;
+    onTouchEndProp?.(e);
   };
 
   return (
     <GridSpotlightCtx.Provider value={listeners.current}>
-      <div onMouseMove={onMove} onTouchStart={onTouchStart} onTouchEnd={onTouchEnd} className={className} style={style}>
+      <div
+        onMouseMove={(e: MouseEvent) => broadcast(e.clientX, e.clientY)}
+        onTouchMove={(e: TouchEvent) => broadcast(e.touches[0].clientX, e.touches[0].clientY)}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+        className={className}
+        style={style}
+      >
         {children}
       </div>
     </GridSpotlightCtx.Provider>

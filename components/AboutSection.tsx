@@ -35,7 +35,7 @@ const AboutSection = () => {
                                     strokeDasharray="314.2"
                                     strokeDashoffset="314.2"
                                     transform="rotate(-90 50 50)"
-                                    className="[transition:stroke-dashoffset_0.5s_ease-in-out] group-hover:[stroke-dashoffset:0]"
+                                    className="[transition:stroke-dashoffset_0.5s_ease-in-out] group-hover:[stroke-dashoffset:0] group-active:[stroke-dashoffset:0] group-data-[touching]:[stroke-dashoffset:0]"
                                     style={{filter: "drop-shadow(0 0 4px var(--color-primary))"}}
                                 />
                             </svg>

@@ -54,7 +54,7 @@ const ProjectsSection = () => {
                         >
                             <SpotlightCard color="primary" radius={280}
                                            className="p-5 rounded-3xl h-full flex flex-col">
-                            <span aria-hidden className="pointer-events-none absolute inset-x-6 top-0 h-px origin-left scale-x-0 bg-gradient-to-r from-transparent via-primary to-transparent transition-transform duration-500 group-hover:scale-x-100" />
+                            <span aria-hidden className="pointer-events-none absolute inset-x-6 top-0 h-px origin-left scale-x-0 bg-gradient-to-r from-transparent via-primary to-transparent transition-transform duration-500 group-hover:scale-x-100 group-active:scale-x-100 group-data-[touching]:scale-x-100" />
                             <span className="text-muted-foreground text-xs font-body">
                                 0{i + 1}
                             </span>
