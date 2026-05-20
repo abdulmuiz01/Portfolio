@@ -50,7 +50,7 @@ const SkillsSection = () => {
                                         key={item}
                                         className="text-muted-foreground font-body text-xs flex items-center gap-1.5"
                                     >
-                                        <span className="w-1 h-1 rounded-full bg-primary flex-shrink-0"/>
+                                        <span className="w-1 h-1 rounded-full bg-primary shrink-0"/>
                                         {item}
                                     </li>
                                 ))}

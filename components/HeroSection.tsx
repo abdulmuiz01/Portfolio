@@ -51,7 +51,8 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                     onClick={onNext}
                     className="flex items-center justify-center gap-5 rounded-full w-1/2 h-20
                                border border-border px-7 py-4 font-mono text-lg uppercase
-                               text-foreground transition-colors duration-300 hover:border-primary/60 hover:text-primary/60"
+                               text-foreground transition-colors duration-300 hover:border-primary/60 hover:text-primary/60
+                               hover:dark:bg-foreground/5"
                 >
                     Welcome
                     <span className="">↓</span>
