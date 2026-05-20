@@ -15,8 +15,8 @@ export function ScrollProgress({ zoom, total }: Props) {
   return (
     <motion.div
       style={{ scaleX: smoothScaleX, transformOrigin: "0% 50%" }}
-      className="fixed left-0 right-0 top-0 z-[80] h-[2px]
-                 bg-gradient-to-r from-primary via-accent to-primary
+      className="fixed left-0 right-0 top-0 z-80 h-0.5
+                 bg-linear-to-r from-primary via-primary to-foreground
                  shadow-[0_0_18px_var(--color-primary)]"
       aria-hidden
     />

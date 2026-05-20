@@ -15,33 +15,50 @@ const AboutSection = () => {
                 transition={{duration: 0.6}}
                 className="flex justify-center"
             >
-                <MagneticCard
-                    strength={0.45}
-                    className="rounded-full border-4 border-background/10 bg-background/5 backdrop-blur-xl
-                               dark:border-foreground/10 dark:bg-foreground/5
-                              "
-                >
-                    <TiltCard className="rounded-full">
-                        <Image
-                            src="/profile.png"
-                            width={500}
-                            height={500}
-                            alt="Picture of the author"
-                            className="rounded-full w-52 h-52 md:w-72 md:h-72 lg:w-96 lg:h-96 block"
-                        />
-                    </TiltCard>
-                </MagneticCard>
+                    <MagneticCard
+                        strength={0.45}
+                        className="group relative rounded-full"
+                    >
+                        <TiltCard className="rounded-full overflow-hidden">
+                            <svg
+                                aria-hidden
+                                className="pointer-events-none absolute inset-0 w-full h-full z-10"
+                                viewBox="0 0 100 100"
+                                fill="none"
+                                overflow="visible"
+                            >
+                                <circle
+                                    cx="50" cy="50" r="50"
+                                    stroke="var(--color-primary)"
+                                    strokeWidth="0.8"
+                                    strokeLinecap="round"
+                                    strokeDasharray="314.2"
+                                    strokeDashoffset="314.2"
+                                    transform="rotate(-90 50 50)"
+                                    className="[transition:stroke-dashoffset_0.5s_ease-in-out] group-hover:[stroke-dashoffset:0]"
+                                    style={{filter: "drop-shadow(0 0 4px var(--color-primary))"}}
+                                />
+                            </svg>
+                            <Image
+                                src="/profile.png"
+                                width={500}
+                                height={500}
+                                alt="Picture of the author"
+                                className="rounded-full w-52 h-52 md:w-72 md:h-72 lg:w-96 lg:h-96 block"
+                            />
+                        </TiltCard>
+                    </MagneticCard>
             </motion.div>
             <div className="flex flex-col gap-5 items-center justify-center px-6 max-w-3xl">
                 <MagneticText
                     strength={0.5}
                     className="text-lg font-bold"
                 >
-                    <TextScramble text="About" trigger="view" className="neon-text uppercase tracking-[0.3em]" />
+                    <TextScramble text="About" trigger="view" className="neon-text uppercase tracking-[0.3em]"/>
                 </MagneticText>
                 <h2 className="text-3xl md:text-5xl font-heading font-bold mb-8 text-center">
                     <SpotlightText>
-                    Passione per il web.
+                        Passione per il web.
                     </SpotlightText>
                 </h2>
                 <p className="text-muted-foreground font-body leading-relaxed text-center max-w-4xl lg:text-lg">
