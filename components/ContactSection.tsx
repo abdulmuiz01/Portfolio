@@ -43,25 +43,25 @@ const ContactSection = () => {
                     Got a project in mind? I&#39;d love to hear about it.
                 </p>
             </div>
-            <MagneticButton
-                className="flex items-center justify-center gap-2 rounded-full
-                                   w-[clamp(8rem,30vw,20rem)] h-[clamp(3rem,8vh,5rem)]
-                                   border border-border px-7 font-mono text-fluid-sm uppercase
+            <div className="flex flex-wrap gap-4 justify-center">
+                {[
+                    {label: "LinkedIn", href: "https://www.linkedin.com/in/abdulmuizkhan"},
+                    {label: "Email", href: "mailto:abdulmuizkhan8@gmail.com"},
+                    {label: "WhatsApp", href: "https://wa.me/393208737348"},
+                ].map((link) => (
+                    <MagneticButton
+                        key={link.label}
+                        as="a"
+                        href={link.href}
+                        className="flex items-center justify-center gap-2 rounded-full
+                                   w-[clamp(7rem,22vw,12rem)] h-[clamp(2.8rem,7vh,4.5rem)]
+                                   border border-border px-5 font-mono text-fluid-sm uppercase
                                    text-foreground transition-colors duration-300
                                    hover:border-primary/60 hover:text-primary
                                    bg-radial from-background to-primary/20"
-            >
-                <TextScramble text="Say Hello" trigger="view" />
-            </MagneticButton>
-            <div className="flex gap-[clamp(1.5rem,4vw,2rem)]">
-                {["GitHub", "LinkedIn", "Twitter"].map((link) => (
-                    <a
-                        key={link}
-                        href="#"
-                        className="text-muted-foreground text-fluid-sm font-body hover:text-primary transition-colors"
                     >
-                        {link}
-                    </a>
+                        <TextScramble text={link.label} trigger="view" />
+                    </MagneticButton>
                 ))}
             </div>
         </motion.div>

@@ -1,0 +1,134 @@
+import {MagneticCard} from "@/components/magnetic/MagneticCard";
+import {SpotlightText} from "@/components/Spotlight";
+import {SpotlightGrid, SpotlightCard} from "@/components/Spotlight";
+import {MagneticText} from "@/components/magnetic/MagneticText";
+import {TextScramble} from "@/components/TextScramble";
+import {TiltCard} from "@/components/TiltCard";
+import {motion} from "framer-motion";
+import type {CSSProperties} from "react";
+
+const METAL_STYLE: CSSProperties = {
+    background: 'hsl(0,5%,4%)',
+    boxShadow: [
+        'inset 0 1px 0 rgba(255,255,255,0.07)',
+        'inset 1px 0 rgba(255,255,255,0.03)',
+        'inset 0 -1px 0 rgba(0,0,0,0.7)',
+        'inset -1px 0 rgba(0,0,0,0.4)',
+        '0 0 0 1px rgba(0,0,0,0.6)',
+        '0 4px 0 rgba(0,0,0,0.9)',
+        '0 8px 10px rgba(0,0,0,0.7)',
+        '0 24px 10px rgba(0,0,0,0.4)',
+    ].join(', '),
+};
+
+const experiences = [
+    {
+        role: "Software Developer",
+        company: "Alt. Srl",
+        type: "Full-time",
+        period: "Oct 2025 – Present",
+        location: "Dormelletto, Italy · Hybrid",
+        description: "ETL process development with Talend, database integration and modeling, Java development, and Salesforce integration. Collaborating on data flow automation and process optimization.",
+        tags: ["Talend", "Java", "SQL", "Salesforce", "Data Integration"],
+    },
+    {
+        role: "Junior Web Developer",
+        company: "5Social",
+        type: "Full-time",
+        period: "Sep 2024 – May 2025",
+        location: "Varese, Italy · Hybrid",
+        description: "Developed the back-office for Hagile®, a digital platform for socio-sanitary transport booking. Built admin dashboards, interactive mission calendars, and dynamic operator tables.",
+        tags: ["Next.js", "React", "JavaScript", "Material UI", "REST API"],
+    },
+    {
+        role: "Junior Web Developer",
+        company: "Bod Lenses",
+        type: "Internship",
+        period: "Jun 2024 – Aug 2024",
+        location: "Vilnius, Lithuania · Hybrid",
+        description: "Built a full-stack web application using Next.js and Java within an international team. Contributed to feature development, testing, debugging, and technical documentation.",
+        tags: ["Next.js", "Java", "Quarkus", "REST API"],
+    },
+];
+
+const ExperienceSection = () => {
+    return (
+        <div className="flex flex-col items-center justify-center
+                        h-full w-full max-w-7xl mx-auto mt-32 md:mt-0
+                        py-[clamp(1rem,3vh,3rem)] px-4 sm:px-6
+                        gap-[clamp(1rem,2vh,2rem)]">
+
+            <motion.div
+                initial={{opacity: 0, scale: 0.55, filter: 'blur(12px)'}}
+                animate={{opacity: 1, scale: 1, filter: 'blur(0px)'}}
+                exit={{opacity: 0, scale: 1.18, filter: 'blur(10px)'}}
+                transition={{duration: 0.4, ease: [0.32, 0, 0.18, 1], delay: 0.1}}
+                className="flex flex-col items-center justify-center gap-fluid-sm"
+            >
+                <MagneticText strength={0.5} className="text-lg font-bold">
+                    <TextScramble text="Career" trigger="view" className="neon-text uppercase tracking-[0.3em]"/>
+                </MagneticText>
+                <h2 className="text-fluid-3xl font-heading font-bold text-center">
+                    <SpotlightText color="accent">Experience</SpotlightText>
+                </h2>
+            </motion.div>
+
+            <motion.div
+                initial={{opacity: 0, scale: 0.55, filter: 'blur(12px)'}}
+                animate={{opacity: 1, scale: 1, filter: 'blur(0px)'}}
+                exit={{opacity: 0, scale: 1.18, filter: 'blur(10px)'}}
+                transition={{duration: 0.4, ease: [0.32, 0, 0.18, 1], delay: 0.15}}
+            >
+                <TiltCard className="w-full rounded-3xl">
+                    <SpotlightGrid
+                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:p-10
+                               gap-4 sm:gap-6 lg:gap-8
+                               w-full h-10/12 md:h-full
+                               px-[clamp(0.5rem,3vw,3rem)]
+                               overflow-y-auto scroll-smooth overscroll-contain no-scrollbar
+                               content-start sm:content-center touch-pan-y"
+                        style={{WebkitOverflowScrolling: "touch"}}
+                    >
+                        {experiences.map((exp, i) => (
+                            <MagneticCard
+                                key={exp.company}
+                                strength={0.15}
+                                className="group relative rounded-3xl cursor-pointer"
+                                style={METAL_STYLE}
+                            >
+                                <SpotlightCard color="accent" radius={200}
+                                               className="p-5 rounded-3xl h-full flex flex-col min-h-52">
+                                    <span className="text-muted-foreground text-xs font-body">0{i + 1}</span>
+                                    <div className="mt-1 mb-1">
+                                        <h3 className="font-heading font-semibold text-base neon-text leading-tight">
+                                            {exp.role}
+                                        </h3>
+                                        <p className="text-primary font-body text-sm font-medium">{exp.company}</p>
+                                        <p className="text-muted-foreground font-body text-xs mt-0.5">
+                                            {exp.type} · {exp.period}
+                                        </p>
+                                        <p className="text-muted-foreground font-body text-xs">{exp.location}</p>
+                                    </div>
+                                    <p className="text-muted-foreground font-body text-xs leading-relaxed my-3 flex-1">
+                                        {exp.description}
+                                    </p>
+                                    <ul className="flex flex-wrap gap-2 mt-auto">
+                                        {exp.tags.map((tag) => (
+                                            <li key={tag}
+                                                className="text-muted-foreground font-body text-xs flex items-center gap-1.5">
+                                                <span className="w-1 h-1 rounded-full bg-primary shrink-0"/>
+                                                {tag}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </SpotlightCard>
+                            </MagneticCard>
+                        ))}
+                    </SpotlightGrid>
+                </TiltCard>
+            </motion.div>
+        </div>
+    );
+};
+
+export default ExperienceSection;

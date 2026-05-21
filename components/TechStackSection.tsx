@@ -22,9 +22,22 @@ const METAL_STYLE: CSSProperties = {
 };
 
 const skills = [
-    {category: "Frontend", items: ["React", "TypeScript", "Next.js", "Tailwind CSS", "Shadcn"]},
-    {category: "Backend", items: ["REST Api", "Node.js", "Express", "Java", "Quarkus"]},
-    {category: "Database", items: ["Database Relazionali", "NoSql", "NoSql1"]},
+    {
+        category: "Frontend",
+        items: ["React", "Next.js", "TypeScript", "JavaScript", "HTML5", "Tailwind CSS", "ShadCN", "Angular", "Material UI"],
+    },
+    {
+        category: "Backend",
+        items: ["Java", "Quarkus", "REST APIs", "Node.js"],
+    },
+    {
+        category: "Database",
+        items: ["SQL", "MongoDB", "Microsoft SQL Server"],
+    },
+    {
+        category: "Tools & DevOps",
+        items: ["Git / GitHub", "Figma", "Talend", "Azure DevOps", "Cypress", "Salesforce"],
+    },
 ];
 
 const SkillsSection = () => {

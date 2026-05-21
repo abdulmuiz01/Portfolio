@@ -6,6 +6,7 @@ import {motion, useSpring, animate, AnimatePresence} from 'framer-motion'
 
 import HeroSection from '@/components/HeroSection'
 import AboutSection from '@/components/AboutSection'
+import ExperienceSection from '@/components/ExperienceSection'
 import TechStackSection from '@/components/TechStackSection'
 import ProjectsSection from '@/components/ProjectsSection'
 import ContactSection from '@/components/ContactSection'
@@ -20,7 +21,7 @@ interface Section {
     component: JSX.Element
 }
 
-const SECTION_COUNT = 5
+const SECTION_COUNT = 6
 
 export default function Page() {
     const [currentIndex, setCurrentIndex] = useState(0)
@@ -67,6 +68,7 @@ export default function Page() {
     const sections: Section[] = useMemo(() => [
         {id: 'hero', label: 'Home', component: <HeroSection onNext={() => transitionTo(1)}/>},
         {id: 'about', label: 'About', component: <AboutSection/>},
+        {id: 'experience', label: 'Experience', component: <ExperienceSection/>},
         {id: 'tech', label: 'Tech Stack', component: <TechStackSection/>},
         {id: 'projects', label: 'Projects', component: <ProjectsSection/>},
         {
@@ -87,6 +89,20 @@ export default function Page() {
         }
         window.addEventListener('wheel', handleWheel, {passive: false})
         return () => window.removeEventListener('wheel', handleWheel)
+    }, [transitionTo])
+
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+                e.preventDefault()
+                transitionTo(currentIndexRef.current + 1)
+            } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+                e.preventDefault()
+                transitionTo(currentIndexRef.current - 1)
+            }
+        }
+        window.addEventListener('keydown', handleKeyDown)
+        return () => window.removeEventListener('keydown', handleKeyDown)
     }, [transitionTo])
 
     useEffect(() => {

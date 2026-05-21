@@ -31,10 +31,16 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                 >
                     <MagneticText
                         strength={0.15}
-                        className="text-fluid-hero font-bold leading-tight"
+                        className="text-fluid-hero font-bold leading-tight flex justify-center items-center"
                     >
                         <span className="neon-text">Welcome</span>
+                        <MagneticText
+                            as={"p"}
+                            strength={0.2}
+                            className="text-fluid-hero font-bold leading-tight"
+                        >
                         <span className="text-foreground">.</span>
+                        </MagneticText>
                     </MagneticText>
                 </motion.div>
 
@@ -45,7 +51,7 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                     className="text-muted-foreground font-body text-fluid-base max-w-xl"
                 >
                     <SpotlightText>
-                        Building digital experiences from front to back.
+                        Junior Full Stack Developer · Varese, Italy
                     </SpotlightText>
                 </motion.p>
 
@@ -55,6 +61,10 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                     transition={{duration: 0.6, delay: 0.7}}
                     className="relative z-10 mt-[clamp(0.5rem,2vw,1.5rem)]"
                 >
+                    <motion.div
+                        animate={{y: [0, -10, 0]}}
+                        transition={{duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: 1.4}}
+                    >
                     <MagneticButton
                         className="flex items-center justify-center gap-2 rounded-full
                                    w-[clamp(8rem,30vw,20rem)] h-[clamp(3rem,8vh,5rem)]
@@ -66,6 +76,7 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                         <TextScramble text="Scroll" trigger="mount" delay={900} />
                         <TextScramble text="↓" trigger="mount" delay={900} />
                     </MagneticButton>
+                    </motion.div>
                 </motion.div>
             </div>
         </div>

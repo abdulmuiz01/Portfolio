@@ -98,9 +98,15 @@ const AboutSection = () => {
                     </SpotlightText>
                 </h2>
                 <p className="text-muted-foreground font-body leading-relaxed text-fluid-sm">
-                    Ciao! Mi chiamo Abdul Muiz Khan. <br/>
-                    Sono un Web Developer con una forte passione per la tecnologia e lo sviluppo web full stack.
-                    Amo creare interfacce intuitive e soluzioni digitali che migliorano la vita delle persone.
+                    Hi! I&#39;m Abdul Muiz Khan.<br/>
+                    A Junior Full Stack Developer graduated from ITS Incom, Busto Arsizio.
+                    I&#39;m passionate about building intuitive interfaces and digital solutions
+                    that make a real difference. With hands-on experience in healthcare and commercial
+                    projects, I thrive in collaborative, agile environments where I can grow every day.
+                </p>
+                <p className="text-muted-foreground font-body text-fluid-sm">
+                    <span className="text-primary font-mono text-xs">Languages —</span>{' '}
+                    Italian · Urdu · English (C1) · French (A2)
                 </p>
             </motion.div>
         </div>

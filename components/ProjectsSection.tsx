@@ -23,19 +23,19 @@ const METAL_STYLE: CSSProperties = {
 
 const projects = [
     {
-        title: "CloudSync",
-        description: "Real-time collaboration platform with WebSocket architecture",
-        tags: ["React", "Node.js", "WebSocket"],
+        title: "Hagile® Platform",
+        description: "Back-office system for socio-sanitary non-urgent transport booking. Built dedicated dashboards for admins and operators, interactive mission calendars, and dynamic shift tables.",
+        tags: ["Next.js", "React", "JavaScript", "Material UI", "REST API"],
     },
     {
-        title: "DataPulse",
-        description: "Analytics dashboard with interactive data visualizations",
-        tags: ["Next.js", "D3.js", "PostgreSQL"],
+        title: "ETL Data Pipeline",
+        description: "Development and management of ETL processes using Talend, database integration and modeling, Java-based data pipelines, and Salesforce integration at Alt. Srl.",
+        tags: ["Talend", "Java", "SQL", "Salesforce", "Data Integration"],
     },
     {
-        title: "DevFlow",
-        description: "CI/CD pipeline manager with GitHub integration",
-        tags: ["Python", "Docker", "AWS"],
+        title: "Web Application",
+        description: "Full-stack web application built with Next.js and Java during an international internship in Vilnius. Delivered features on schedule within an agile cross-functional team.",
+        tags: ["Next.js", "Java", "Quarkus", "REST API"],
     },
 ];
 
