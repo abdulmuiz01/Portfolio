@@ -7,16 +7,16 @@ import {TextScramble} from "@/components/TextScramble";
 import {TiltCard} from "@/components/TiltCard";
 
 export const METAL_STYLE: CSSProperties = {
-    background: 'hsl(0,5%,4%)',
+    background: 'var(--card)',
     boxShadow: [
         'inset 0 1px 0 rgba(255,255,255,0.07)',
         'inset 1px 0 rgba(255,255,255,0.03)',
-        'inset 0 -1px 0 rgba(0,0,0,0.7)',
-        'inset -1px 0 rgba(0,0,0,0.4)',
-        '0 0 0 1px rgba(0,0,0,0.6)',
-        '0 4px 0 rgba(0,0,0,0.9)',
-        '0 8px 10px rgba(0,0,0,0.7)',
-        '0 24px 10px rgba(0,0,0,0.4)',
+        'inset 0 -1px 0 rgba(0,0,0,0.3)',
+        'inset -1px 0 rgba(0,0,0,0.15)',
+        '0 0 0 1px rgba(0,0,0,0.15)',
+        '0 4px 0 rgba(0,0,0,0.2)',
+        '0 8px 10px rgba(0,0,0,0.15)',
+        '0 24px 10px rgba(0,0,0,0.08)',
     ].join(', '),
 };
 
@@ -60,7 +60,7 @@ export default function SectionShell({label, title, titleColor = 'primary', chil
             >
                 <TiltCard className="w-full h-full lg:h-auto rounded-3xl">
                     <SpotlightGrid
-                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:p-10
+                        className="grid grid-cols-1 sm:grid-cols-2 lg:p-10
                                    gap-4 sm:gap-6 lg:gap-8
                                    w-full h-10/12 lg:h-auto
                                    px-[clamp(0.5rem,3vw,3rem)]

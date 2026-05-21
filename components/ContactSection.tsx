@@ -40,13 +40,14 @@ const ContactSection = () => {
                 <h2 className="text-fluid-3xl font-heading font-bold text-center">
                     <SpotlightText color="accent">Let&#39;s connect.</SpotlightText>
                 </h2>
-                <p className="text-muted-foreground font-body text-fluid-sm max-w-sm">
+                <p className="text-muted-foreground font-body text-fluid-sm ">
                     Got a project in mind? I&#39;d love to hear about it.
                 </p>
             </div>
             <div className="flex flex-wrap gap-4 justify-center">
                 {links.map((link) => (
                     <MagneticButton
+                        strength={0.2}
                         key={link.label}
                         as="a"
                         href={link.href}

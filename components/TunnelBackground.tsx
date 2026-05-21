@@ -29,6 +29,11 @@ export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
         let w = 0
         let h = 0
 
+        const isDark = () => document.documentElement.classList.contains('dark')
+        const lineColor = (alpha: number) => isDark()
+            ? `rgba(0, 220, 200, ${alpha.toFixed(3)})`
+            : `rgba(0, 1, 1, ${alpha.toFixed(3)})`
+
         const draw = () => {
             if (w === 0 || h === 0) return
             const z      = zoom.get()
@@ -49,7 +54,7 @@ export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
 
             // FIX A — shadow only on desktop; it's very expensive on mobile GPUs
             if (!isMobile) {
-                ctx.shadowColor = 'rgba(0, 220, 200, 0.75)'
+                ctx.shadowColor = isDark() ? 'rgba(0, 220, 200, 0.75)' : 'rgba(0, 80, 110, 0.5)'
                 ctx.shadowBlur  = 5
             }
 
@@ -80,7 +85,7 @@ export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
                 [-halfW,  halfH, 0.25],
             ]
             for (const [x, y, shade] of corners) {
-                ctx.strokeStyle = `rgba(0, 220, 200, ${(0.5 * shade).toFixed(3)})`
+                ctx.strokeStyle = lineColor(2 * shade)
                 seg(x, y, Z_NEAR, x, y, Z_FAR)
             }
 
@@ -98,7 +103,7 @@ export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
                 const bl = proj(-halfW,  halfH, d)
 
                 const edge = ([ax, ay]: [number, number], [bx, by]: [number, number], shade: number) => {
-                    ctx.strokeStyle = `rgba(0, 220, 200, ${(base * shade).toFixed(3)})`
+                    ctx.strokeStyle = lineColor(base * shade)
                     ctx.lineWidth   = lw
                     ctx.beginPath()
                     ctx.moveTo(ax, ay)
@@ -134,9 +139,14 @@ export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
         // FIX B — draw only when zoom changes; no idle rAF loop burning CPU/GPU
         const unsub = zoom.on('change', draw)
 
+        // Redraw when theme class changes on <html>
+        const observer = new MutationObserver(draw)
+        observer.observe(document.documentElement, {attributes: true, attributeFilter: ['class']})
+
         return () => {
             unsub()
             window.removeEventListener('resize', resize)
+            observer.disconnect()
         }
     }, [zoom])
 

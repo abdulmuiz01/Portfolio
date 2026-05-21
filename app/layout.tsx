@@ -1,10 +1,12 @@
 import { Space_Grotesk } from "next/font/google"
 import type { Viewport } from "next"
+import { ThemeProvider } from "@/components/theme-provider"
+import ThemeToggle from "@/components/ThemeToggle"
 
-const space_grotesk = Space_Grotesk ({
+const space_grotesk = Space_Grotesk({
     subsets: ["latin"],
     variable: "--font-space_grotesk",
-    weight:"500"
+    weight: "500"
 })
 
 import "./globals.css"
@@ -18,10 +20,13 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en" className={`${space_grotesk.variable} dark`}>
+        <html lang="en" className={space_grotesk.variable} suppressHydrationWarning>
         <body className="font-sans">
-        {children}
+        <ThemeProvider defaultTheme="dark">
+            <ThemeToggle />
+            {children}
+        </ThemeProvider>
         </body>
         </html>
-    );
+    )
 }
