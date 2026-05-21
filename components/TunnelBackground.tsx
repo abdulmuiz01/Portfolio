@@ -52,7 +52,6 @@ export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
             ctx.rotate(angle)
             ctx.translate(-cx, -cy)
 
-            // FIX A — shadow only on desktop; it's very expensive on mobile GPUs
             if (!isMobile) {
                 ctx.shadowColor = isDark() ? 'rgba(0, 220, 200, 0.75)' : 'rgba(0, 80, 110, 0.5)'
                 ctx.shadowBlur  = 5
@@ -76,7 +75,6 @@ export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
                 ctx.stroke()
             }
 
-            // 4 corner corridor lines — shaded by position (top=bright, bottom=dim)
             ctx.lineWidth = 0.1
             const corners: [number, number, number][] = [
                 [-halfW, -halfH, 0.70],
@@ -89,7 +87,20 @@ export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
                 seg(x, y, Z_NEAR, x, y, Z_FAR)
             }
 
-            // Rings — each edge drawn with directional shading
+            const ftl = proj(-halfW, -halfH, Z_FAR)
+            const ftr = proj( halfW, -halfH, Z_FAR)
+            const fbr = proj( halfW,  halfH, Z_FAR)
+            const fbl = proj(-halfW,  halfH, Z_FAR)
+            ctx.strokeStyle = lineColor(0.55)
+            ctx.lineWidth = 0.05
+            ctx.beginPath()
+            ctx.moveTo(...ftl)
+            ctx.lineTo(...ftr)
+            ctx.lineTo(...fbr)
+            ctx.lineTo(...fbl)
+            ctx.closePath()
+            ctx.stroke()
+
             const SHADE = { top: 1.0, right: 0.6, bottom: 0.22, left: 0.55 }
             const zBase = Z_NEAR + GRID - (offset % GRID)
             for (let d = zBase; d < Z_FAR; d += GRID) {
