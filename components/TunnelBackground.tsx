@@ -12,7 +12,7 @@ const FOV = 600
 const Z_NEAR = 160
 const Z_FAR = 5240
 const DEPTH_PER_SECTION = 500
-const ROTATION_PER_SECTION = Math.PI / 2
+const ROTATION_PER_SECTION = Math.PI / 5
 
 export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null)

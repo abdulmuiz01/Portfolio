@@ -135,7 +135,6 @@ export default function Page() {
 
     return (
         <div className="fixed inset-x-0 top-0 h-screen overflow-hidden touch-none bg-background text-foreground">
-            <ScrollProgress zoom={zoom} total={SECTION_COUNT}/>
             <TunnelBackground zoom={zoom}/>
             <Stepper
                 steps={sections.map(s => ({id: s.id, label: s.label}))}
