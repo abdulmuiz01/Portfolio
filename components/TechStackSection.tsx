@@ -53,7 +53,7 @@ const SkillsSection = () => {
                 transition={{
                     duration: 0.55,
                     ease: [0.32, 0, 0.18, 1],
-                    delay:0.2
+                    delay: 0.2
                 }}
                 className="flex flex-col items-center justify-center gap-fluid-sm">
                 <MagneticText strength={0.5} className="text-lg font-bold">
@@ -63,48 +63,70 @@ const SkillsSection = () => {
                     <SpotlightText color="accent">Tech Stack</SpotlightText>
                 </h2>
             </motion.div>
-
-            <TiltCard className="w-full rounded-3xl ">
-                <SpotlightGrid
-                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:p-10
+            <motion.div
+                initial={{
+                    opacity: 0,
+                    scale: 0.55,
+                    filter: 'blur(12px)',
+                }}
+                animate={{
+                    opacity: 1,
+                    scale: 1,
+                    filter: 'blur(0px)',
+                }}
+                exit={{
+                    opacity: 0,
+                    scale: 1.18,
+                    filter: 'blur(10px)',
+                }}
+                transition={{
+                    duration: 0.55,
+                    ease: [0.32, 0, 0.18, 1],
+                    delay: 0.4
+                }}
+            >
+                <TiltCard className="w-full rounded-3xl ">
+                    <SpotlightGrid
+                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:p-10
                                gap-4 sm:gap-6 lg:gap-8
                                w-full h-10/12 md:h-full
                                px-[clamp(0.5rem,3vw,3rem)]
                                overflow-y-auto scroll-smooth overscroll-contain no-scrollbar
                                content-start sm:content-center touch-pan-y"
-                    style={{WebkitOverflowScrolling: "touch"}}
-                >
-                    {skills.map((group, i) => (
-                        <MagneticCard
-                            key={group.category}
-                            strength={0.15}
-                            className="group relative rounded-3xl cursor-pointer"
-                            style={METAL_STYLE}
-                        >
-                            <SpotlightCard color="accent" radius={170}
-                                           className="p-5 rounded-3xl h-full flex flex-col min-h-44">
+                        style={{WebkitOverflowScrolling: "touch"}}
+                    >
+                        {skills.map((group, i) => (
+                            <MagneticCard
+                                key={group.category}
+                                strength={0.15}
+                                className="group relative rounded-3xl cursor-pointer"
+                                style={METAL_STYLE}
+                            >
+                                <SpotlightCard color="accent" radius={170}
+                                               className="p-5 rounded-3xl h-full flex flex-col min-h-44">
                                 <span className="text-muted-foreground text-xs font-body">
                                     0{i + 1}
                                 </span>
-                                <h3 className="font-heading font-semibold text-lg mt-1 mb-3 neon-text">
-                                    {group.category}
-                                </h3>
-                                <ul className="flex flex-wrap gap-2 mt-auto">
-                                    {group.items.map((item) => (
-                                        <li
-                                            key={item}
-                                            className="text-muted-foreground font-body text-xs flex items-center gap-1.5"
-                                        >
-                                            <span className="w-1 h-1 rounded-full bg-primary shrink-0"/>
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </SpotlightCard>
-                        </MagneticCard>
-                    ))}
-                </SpotlightGrid>
-            </TiltCard>
+                                    <h3 className="font-heading font-semibold text-lg mt-1 mb-3 neon-text">
+                                        {group.category}
+                                    </h3>
+                                    <ul className="flex flex-wrap gap-2 mt-auto">
+                                        {group.items.map((item) => (
+                                            <li
+                                                key={item}
+                                                className="text-muted-foreground font-body text-xs flex items-center gap-1.5"
+                                            >
+                                                <span className="w-1 h-1 rounded-full bg-primary shrink-0"/>
+                                                {item}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </SpotlightCard>
+                            </MagneticCard>
+                        ))}
+                    </SpotlightGrid>
+                </TiltCard>
+            </motion.div>
         </div>
     );
 };
