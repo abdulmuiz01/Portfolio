@@ -197,3 +197,4 @@ export function useTranslations(): Translations {
     const {lang} = useLang()
     return translations[lang]
 }
+
