@@ -35,8 +35,8 @@ interface SectionShellProps {
 
 export default function SectionShell({label, title, titleColor = 'primary', children}: SectionShellProps) {
     return (
-        <div className="flex flex-col items-center justify-center
-                        h-full w-full max-w-7xl mx-auto mt-32 md:mt-0
+        <div className="flex flex-col items-center justify-start
+                        h-full w-full max-w-7xl mx-auto mt-52 md:mt-0 md:justify-center
                         py-[clamp(1rem,3vh,3rem)] px-4 sm:px-6
                         gap-[clamp(1rem,2vh,2rem)]">
 
@@ -56,14 +56,15 @@ export default function SectionShell({label, title, titleColor = 'primary', chil
             <motion.div
                 {...ENTRY}
                 transition={{duration: 0.4, ease: [0.32, 0, 0.18, 1], delay: 0.2}}
+                className="flex-1 min-h-0 w-full lg:flex-none"
             >
-                <TiltCard className="w-full rounded-3xl">
+                <TiltCard className="w-full h-full lg:h-auto rounded-3xl">
                     <SpotlightGrid
                         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:p-10
                                    gap-4 sm:gap-6 lg:gap-8
-                                   w-full h-10/12 md:h-full
+                                   w-full h-10/12 lg:h-auto
                                    px-[clamp(0.5rem,3vw,3rem)]
-                                   overflow-y-auto scroll-smooth overscroll-contain no-scrollbar
+                                   overflow-y-auto lg:overflow-visible scroll-smooth overscroll-contain no-scrollbar
                                    content-start sm:content-center touch-pan-y"
                         style={{WebkitOverflowScrolling: 'touch'}}
                     >

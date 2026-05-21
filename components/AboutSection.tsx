@@ -104,10 +104,10 @@ const AboutSection = () => {
                     that make a real difference. With hands-on experience in healthcare and commercial
                     projects, I thrive in collaborative, agile environments where I can grow every day.
                 </p>
-                <p className="text-muted-foreground font-body text-fluid-sm">
-                    <span className="text-primary font-mono text-xs">Languages —</span>{' '}
-                    Italian · Urdu · English (C1) · French (A2)
-                </p>
+                <div className="flex gap-1 items-center text-muted-foreground font-body text-fluid-sm">
+                    <span className="text-primary ">Languages -</span>
+                    <span>Italian · Urdu · English (C1) · French (A2)</span>
+                </div>
             </motion.div>
         </div>
     );
