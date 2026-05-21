@@ -148,18 +148,18 @@ export default function Page() {
               </div>
             </motion.div>
           </AnimatePresence>
-          {/* Nav dots — top-right on mobile, right-center on desktop */}
-          <div className="fixed right-4 top-7 z-50 flex flex-col items-end gap-2  pr-safe md:top-1/2 md:-translate-y-1/2 md:pt-0 md:pr-0 md:items-center">
-            <div className="flex flex-row gap-2 md:flex-col md:gap-3">
+          <div className="fixed right-4 top-7 z-50 flex flex-col items-end gap-2 pr-safe
+                          md:pt-0 md:pr-0 md:items-center">
+            <div className="flex flex-row gap-5">
               {sections.map((section, idx) => (
                   <button
                       key={section.id}
                       onClick={() => transitionTo(idx)}
                       aria-label={section.label}
-                      className={`h-3 w-3 rounded-full transition-all duration-500 ${
+                      className={`h-3 w-3 rounded-full transition-all duration-200 ${
                           idx === currentIndex
-                              ? 'scale-150  shadow-[0_0_10px] shadow-primary'
-                              : 'bg-white/20 hover:scale-125 hover:bg-white/50'
+                              ? 'scale-200 shadow-[0_0_10px] shadow-primary bg-radial from-primary to-background/20'
+                              : 'bg-muted-foreground/30 hover:scale-125 hover:bg-white/50'
                       }`}
                   />
               ))}

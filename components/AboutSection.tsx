@@ -22,35 +22,24 @@ const AboutSection = () => {
                 <MagneticCard
                     strength={0.45}
                     className="group relative rounded-full"
+                    style={{
+                        boxShadow: [
+                            /* Lit surface — top gleam */
+                            'inset 0 3px 10px rgba(255,255,255,0.10)',
+                            /* Neon rim */
+                            '0 0 18px rgba(0, 220, 200, 0.18)',
+                            /* Disc edge — stacked layers make it feel thick */
+                            '0 3px 0 rgba(0,0,0,0.95)',
+                            '0 6px 0 rgba(0,0,0,0.80)',
+                            '0 9px 0 rgba(0,0,0,0.60)',
+                            '0 12px 0 rgba(0,0,0,0.35)',
+                            /* Elevation */
+                            '0 20px 50px rgba(0,0,0,1)',
+                        ].join(', '),
+                    }}
                 >
                     <TiltCard className="rounded-full overflow-hidden">
-                        <svg
-                            aria-hidden
-                            className="pointer-events-none absolute inset-0 w-full h-full z-10"
-                            viewBox="0 0 100 100"
-                            fill="none"
-                            overflow="visible"
-                        >
-                            <defs>
-                                <linearGradient id="ring-grad" gradientUnits="userSpaceOnUse" x1="50" y1="0" x2="50" y2="100">
-                                    <stop offset="0%"   stopColor="var(--color-primary)" stopOpacity="0" />
-                                    <stop offset="20%"  stopColor="var(--color-primary)" stopOpacity="1" />
-                                    <stop offset="80%"  stopColor="var(--color-primary)" stopOpacity="1" />
-                                    <stop offset="100%" stopColor="var(--color-primary)" stopOpacity="0" />
-                                </linearGradient>
-                            </defs>
-                            <circle
-                                cx="50" cy="50" r="50"
-                                stroke="url(#ring-grad)"
-                                strokeWidth="0.8"
-                                strokeLinecap="round"
-                                strokeDasharray="314.2"
-                                strokeDashoffset="314.2"
-                                transform="rotate(-90 50 50)"
-                                className="[transition:stroke-dashoffset_0.5s_ease-in-out] group-hover:[stroke-dashoffset:0] group-active:[stroke-dashoffset:0] group-data-[touching]:[stroke-dashoffset:0]"
-                                style={{filter: "drop-shadow(0 0 4px var(--color-primary))"}}
-                            />
-                        </svg>
+
                         <Image
                             src="/profile.png"
                             width={500}

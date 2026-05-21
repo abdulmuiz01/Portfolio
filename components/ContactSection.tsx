@@ -26,8 +26,8 @@ const ContactSection = () => {
                                    w-[clamp(8rem,30vw,20rem)] h-[clamp(3rem,8vh,5rem)]
                                    border border-border px-7 font-mono text-fluid-sm uppercase
                                    text-foreground transition-colors duration-300
-                                   hover:border-primary/60 hover:text-background
-                                   hover:dark:bg-primary"
+                                   hover:border-primary/60 hover:text-primary
+                                   bg-radial from-background to-primary/20"
             >
                 <TextScramble text="Say Hello" trigger="view" />
             </MagneticButton>

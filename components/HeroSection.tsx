@@ -56,13 +56,12 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                     className="relative z-10 mt-[clamp(0.5rem,2vw,1.5rem)]"
                 >
                     <MagneticButton
-                        onClick={onNext}
                         className="flex items-center justify-center gap-2 rounded-full
                                    w-[clamp(8rem,30vw,20rem)] h-[clamp(3rem,8vh,5rem)]
                                    border border-border px-7 font-mono text-fluid-sm uppercase
                                    text-foreground transition-colors duration-300
-                                   hover:border-primary/60 hover:text-primary/60
-                                   hover:dark:bg-foreground/5"
+                                   hover:border-primary/60 hover:text-primary
+                                   bg-radial from-background to-primary/20"
                     >
                         <TextScramble text="Scroll" trigger="mount" delay={900} />
                         <TextScramble text="↓" trigger="mount" delay={900} />

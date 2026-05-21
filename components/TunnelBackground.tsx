@@ -12,7 +12,8 @@ const FOV = 600
 const Z_NEAR = 160
 const Z_FAR = 5240
 const DEPTH_PER_SECTION = 200
-const ROTATION_PER_SECTION = Math.PI / 4
+const ROTATION_PER_SECTION = Math.PI / 2
+
 export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -22,45 +23,35 @@ export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
         const ctx = canvas.getContext('2d')
         if (!ctx) return
 
+        // Detect touch/mobile once — avoids repeated matchMedia calls per frame
+        const isMobile = window.matchMedia('(pointer: coarse)').matches
+
         let w = 0
         let h = 0
 
-        const resize = () => {
-            const dpr = window.devicePixelRatio || 1
-            w = window.innerWidth
-            h = window.innerHeight
-            canvas.width = w * dpr
-            canvas.height = h * dpr
-            canvas.style.width = `${w}px`
-            canvas.style.height = `${h}px`
-            ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-        }
-        resize()
-        window.addEventListener('resize', resize)
-
-        let animId: number
-
         const draw = () => {
-            const z = zoom.get()
+            if (w === 0 || h === 0) return
+            const z      = zoom.get()
             const offset = z * DEPTH_PER_SECTION
             const angle  = z * ROTATION_PER_SECTION
 
             ctx.clearRect(0, 0, w, h)
 
-            const cx = w / 2
-            const cy = h / 2
+            const cx    = w / 2
+            const cy    = h / 2
             const halfW = cx * Z_NEAR / FOV
             const halfH = cy * Z_NEAR / FOV
 
-            // Rotate the whole tunnel around the vanishing point (z-axis spin)
             ctx.save()
             ctx.translate(cx, cy)
             ctx.rotate(angle)
             ctx.translate(-cx, -cy)
 
-            // Glow on every line
-            ctx.shadowColor = 'rgba(0, 220, 200, 0.75)'
-            ctx.shadowBlur = 5
+            // FIX A — shadow only on desktop; it's very expensive on mobile GPUs
+            if (!isMobile) {
+                ctx.shadowColor = 'rgba(0, 220, 200, 0.75)'
+                ctx.shadowBlur  = 5
+            }
 
             const proj = (wx: number, wy: number, wz: number): [number, number] => [
                 cx + wx * FOV / wz,
@@ -83,22 +74,21 @@ export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
             // 4 corner corridor lines — shaded by position (top=bright, bottom=dim)
             ctx.lineWidth = 0.1
             const corners: [number, number, number][] = [
-                [-halfW, -halfH, 0.70],  // top-left
-                [ halfW, -halfH, 0.80],  // top-right
-                [ halfW,  halfH, 0.35],  // bottom-right
-                [-halfW,  halfH, 0.25],  // bottom-left
+                [-halfW, -halfH, 0.70],
+                [ halfW, -halfH, 0.80],
+                [ halfW,  halfH, 0.35],
+                [-halfW,  halfH, 0.25],
             ]
             for (const [x, y, shade] of corners) {
                 ctx.strokeStyle = `rgba(0, 220, 200, ${(0.5 * shade).toFixed(3)})`
                 seg(x, y, Z_NEAR, x, y, Z_FAR)
             }
 
-            // Animated rings — each edge drawn separately with directional shading
-            // Light source from above: top=bright, bottom=dim, sides=mid
+            // Rings — each edge drawn with directional shading
             const SHADE = { top: 1.0, right: 0.6, bottom: 0.22, left: 0.55 }
             const zBase = Z_NEAR + GRID - (offset % GRID)
             for (let d = zBase; d < Z_FAR; d += GRID) {
-                const t = 1 - (d - Z_NEAR) / (Z_FAR - Z_NEAR)
+                const t    = 1 - (d - Z_NEAR) / (Z_FAR - Z_NEAR)
                 const base = t * t * 0.1
                 const lw   = t > 0.6 ? 1.3 : t > 0.3 ? 0.9 : 0.4
 
@@ -107,32 +97,45 @@ export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
                 const br = proj( halfW,  halfH, d)
                 const bl = proj(-halfW,  halfH, d)
 
-                const edge = (
-                    [ax, ay]: [number, number],
-                    [bx, by]: [number, number],
-                    shade: number,
-                ) => {
+                const edge = ([ax, ay]: [number, number], [bx, by]: [number, number], shade: number) => {
                     ctx.strokeStyle = `rgba(0, 220, 200, ${(base * shade).toFixed(3)})`
-                    ctx.lineWidth = lw
+                    ctx.lineWidth   = lw
                     ctx.beginPath()
                     ctx.moveTo(ax, ay)
                     ctx.lineTo(bx, by)
                     ctx.stroke()
                 }
 
-                edge(tl, tr, SHADE.top)    // top   — lit
-                edge(tr, br, SHADE.right)  // right — mid
-                edge(br, bl, SHADE.bottom) // bottom — shadow
-                edge(bl, tl, SHADE.left)   // left  — mid-dim
+                edge(tl, tr, SHADE.top)
+                edge(tr, br, SHADE.right)
+                edge(br, bl, SHADE.bottom)
+                edge(bl, tl, SHADE.left)
             }
 
             ctx.restore()
-            animId = requestAnimationFrame(draw)
         }
 
-        draw()
+        const resize = () => {
+            // FIX C — cap DPR at 2; 3× screens get 9× the pixels for no visible gain
+            const dpr = Math.min(window.devicePixelRatio || 1, 2)
+            w = window.innerWidth
+            h = window.innerHeight
+            canvas.width  = w * dpr
+            canvas.height = h * dpr
+            canvas.style.width  = `${w}px`
+            canvas.style.height = `${h}px`
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+            draw()
+        }
+
+        resize()
+        window.addEventListener('resize', resize)
+
+        // FIX B — draw only when zoom changes; no idle rAF loop burning CPU/GPU
+        const unsub = zoom.on('change', draw)
+
         return () => {
-            cancelAnimationFrame(animId)
+            unsub()
             window.removeEventListener('resize', resize)
         }
     }, [zoom])

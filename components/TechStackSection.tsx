@@ -8,7 +8,7 @@ import {motion} from "framer-motion";
 import type {CSSProperties} from "react";
 
 const METAL_STYLE: CSSProperties = {
-    background: 'linear-gradient(160deg, hsl(220,6%,13%) 0%, hsl(220,5%,7%) 55%, hsl(220,6%,10%) 100%)',
+    background: 'hsl(0,5%,4%)',
     boxShadow: [
         'inset 0 1px 0 rgba(255,255,255,0.07)',   // top-edge — barely-there matte rim
         'inset 1px 0 rgba(255,255,255,0.03)',      // left-edge whisper
@@ -16,8 +16,8 @@ const METAL_STYLE: CSSProperties = {
         'inset -1px 0 rgba(0,0,0,0.4)',           // right inner shadow
         '0 0 0 1px rgba(0,0,0,0.6)',              // thin outer outline
         '0 4px 0 rgba(0,0,0,0.9)',               // visible bottom edge (card thickness)
-        '0 8px 32px rgba(0,0,0,0.7)',            // elevation
-        '0 24px 64px rgba(0,0,0,0.4)',           // far ambient shadow
+        '0 8px 10px rgba(0,0,0,0.7)',            // elevation
+        '0 24px 10px rgba(0,0,0,0.4)',           // far ambient shadow
     ].join(', '),
 };
 
@@ -67,7 +67,7 @@ const SkillsSection = () => {
                 <SpotlightGrid
                     className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 lg:p-10
                                gap-4 sm:gap-6 lg:gap-8
-                               w-full h-10/12
+                               w-full h-10/12 md:h-full
                                px-[clamp(0.5rem,3vw,3rem)]
                                overflow-y-auto scroll-smooth overscroll-contain no-scrollbar
                                content-start sm:content-center touch-pan-y"
@@ -77,16 +77,11 @@ const SkillsSection = () => {
                         <MagneticCard
                             key={group.category}
                             strength={0.15}
-                            className="group relative rounded-lg cursor-pointer"
+                            className="group relative rounded-3xl cursor-pointer"
                             style={METAL_STYLE}
                         >
-                            <SpotlightCard color="accent" radius={280}
-                                           className="p-5 rounded-lg h-full flex flex-col min-h-44">
-                                <span aria-hidden
-                                      className="pointer-events-none absolute inset-0 bg-linear-to-br from-white/[0.07] via-transparent to-black/10"/>
-                                <span aria-hidden className="pointer-events-none absolute inset-x-6 top-0 h-px origin-left scale-x-0 bg-linear-to-r
-                                                             from-transparent via-accent to-transparent transition-transform duration-500
-                                                             group-hover:scale-x-100 group-active:scale-x-100 group-data-touching:scale-x-100"/>
+                            <SpotlightCard color="accent" radius={170}
+                                           className="p-5 rounded-3xl h-full flex flex-col min-h-44">
                                 <span className="text-muted-foreground text-xs font-body">
                                     0{i + 1}
                                 </span>
