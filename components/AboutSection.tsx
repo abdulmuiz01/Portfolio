@@ -8,75 +8,79 @@ import {TiltCard} from "@/components/TiltCard";
 
 const AboutSection = () => {
     return (
-        <div className="flex flex-col items-center justify-center mx-auto gap-12 lg:flex-row ">
+        <div className="flex flex-col md:flex-row items-center justify-center
+                        w-full max-w-6xl mx-auto
+                        px-[clamp(1rem,5vw,3rem)]
+                        gap-[clamp(2rem,5vw,5rem)]">
+
+            {/* Avatar */}
             <motion.div
                 initial={{opacity: 0, y: 40}} whileInView={{opacity: 1, y: 0}}
                 viewport={{once: true}}
                 transition={{duration: 0.6}}
-                className="flex justify-center"
+                className="flex shrink-0 justify-center"
             >
-                    <MagneticCard
-                        strength={0.45}
-                        className="group relative rounded-full"
-                    >
-                        <TiltCard className="rounded-full overflow-hidden">
-                            <svg
-                                aria-hidden
-                                className="pointer-events-none absolute inset-0 w-full h-full z-10"
-                                viewBox="0 0 100 100"
-                                fill="none"
-                                overflow="visible"
-                            >
-                                <circle
-                                    cx="50" cy="50" r="50"
-                                    stroke="var(--color-primary)"
-                                    strokeWidth="0.8"
-                                    strokeLinecap="round"
-                                    strokeDasharray="314.2"
-                                    strokeDashoffset="314.2"
-                                    transform="rotate(-90 50 50)"
-                                    className="[transition:stroke-dashoffset_0.5s_ease-in-out] group-hover:[stroke-dashoffset:0] group-active:[stroke-dashoffset:0] group-data-[touching]:[stroke-dashoffset:0]"
-                                    style={{filter: "drop-shadow(0 0 4px var(--color-primary))"}}
-                                />
-                            </svg>
-                            <Image
-                                src="/profile.png"
-                                width={500}
-                                height={500}
-                                alt="Picture of the author"
-                                className="rounded-full size-fluid-avatar block"
+                <MagneticCard
+                    strength={0.45}
+                    className="group relative rounded-full"
+                >
+                    <TiltCard className="rounded-full overflow-hidden">
+                        <svg
+                            aria-hidden
+                            className="pointer-events-none absolute inset-0 w-full h-full z-10"
+                            viewBox="0 0 100 100"
+                            fill="none"
+                            overflow="visible"
+                        >
+                            <defs>
+                                <linearGradient id="ring-grad" gradientUnits="userSpaceOnUse" x1="50" y1="0" x2="50" y2="100">
+                                    <stop offset="0%"   stopColor="var(--color-primary)" stopOpacity="0" />
+                                    <stop offset="20%"  stopColor="var(--color-primary)" stopOpacity="1" />
+                                    <stop offset="80%"  stopColor="var(--color-primary)" stopOpacity="1" />
+                                    <stop offset="100%" stopColor="var(--color-primary)" stopOpacity="0" />
+                                </linearGradient>
+                            </defs>
+                            <circle
+                                cx="50" cy="50" r="50"
+                                stroke="url(#ring-grad)"
+                                strokeWidth="0.8"
+                                strokeLinecap="round"
+                                strokeDasharray="314.2"
+                                strokeDashoffset="314.2"
+                                transform="rotate(-90 50 50)"
+                                className="[transition:stroke-dashoffset_0.5s_ease-in-out] group-hover:[stroke-dashoffset:0] group-active:[stroke-dashoffset:0] group-data-[touching]:[stroke-dashoffset:0]"
+                                style={{filter: "drop-shadow(0 0 4px var(--color-primary))"}}
                             />
-                        </TiltCard>
-                    </MagneticCard>
+                        </svg>
+                        <Image
+                            src="/profile.png"
+                            width={500}
+                            height={500}
+                            alt="Picture of the author"
+                            className="rounded-full size-fluid-avatar block"
+                        />
+                    </TiltCard>
+                </MagneticCard>
             </motion.div>
-            <div className="flex flex-col gap-fluid-sm items-center justify-center px-6 max-w-3xl">
+
+            {/* Text */}
+            <div className="flex flex-col gap-fluid-sm items-center md:items-start justify-center
+                            max-w-xl text-center md:text-left">
                 <MagneticText
                     strength={0.5}
                     className="text-lg font-bold"
                 >
                     <TextScramble text="About" trigger="view" className="neon-text uppercase tracking-[0.3em]"/>
                 </MagneticText>
-                <h2 className="text-fluid-2xl font-heading font-bold mb-8 text-center">
+                <h2 className="text-fluid-2xl font-heading font-bold">
                     <SpotlightText>
                         Passione per il web.
                     </SpotlightText>
                 </h2>
-                <p className="text-muted-foreground font-body leading-relaxed text-center max-w-4xl text-fluid-sm">
+                <p className="text-muted-foreground font-body leading-relaxed text-fluid-sm">
                     Sono un Web Developer con una forte passione per la tecnologia e lo sviluppo web full stack.
                     Amo creare interfacce intuitive e soluzioni digitali che migliorano la vita delle persone.
                 </p>
-                {/*<div className="grid grid-cols-3 gap-8 mt-16 w-full max-w-lg">*/}
-                {/*    {[*/}
-                {/*        {num: "1+", label: "Years"},*/}
-                {/*        {num: "40+", label: "Projects"},*/}
-                {/*        {num: "15+", label: "Clients"},*/}
-                {/*    ].map((stat) => (*/}
-                {/*        <div key={stat.label} className="text-center">*/}
-                {/*            <p className="text-2xl font-heading font-bold neon-text">{stat.num}</p>*/}
-                {/*            <p className="text-muted-foreground text-sm mt-1">{stat.label}</p>*/}
-                {/*        </div>*/}
-                {/*    ))}*/}
-                {/*</div>*/}
             </div>
         </div>
     );

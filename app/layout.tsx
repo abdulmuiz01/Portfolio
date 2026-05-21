@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <head>
             <link rel="manifest" href="/manifest.json" />
             <meta name="theme-color" content="#000000" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
             <title></title>
         </head>
         <body className="font-sans">

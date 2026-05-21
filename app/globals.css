@@ -163,7 +163,7 @@
   .gap-fluid-lg { gap: clamp(2.5rem,  6vw, 5rem);   } /* gap-10 → gap-20 */
 
   /* ── Fluid avatar ─────────────────────────────────────────────────────── */
-  .size-fluid-avatar { width: clamp(13rem, 30vw, 24rem); height: clamp(13rem, 30vw, 24rem); }
+  .size-fluid-avatar { width: clamp(10rem, 25vw, 22rem); height: clamp(10rem, 25vw, 22rem); }
 
   .neon-text {
     color: var(--color-primary);
@@ -192,6 +192,15 @@
             0 0 15px color-mix(in srgb, var(--color-accent) 20%, transparent),
             inset 0 0 12px color-mix(in srgb, var(--color-accent) 10%, transparent);
   }
+
+  /* ── Safe-area edge helpers ───────────────────────────────────────────────
+     Apply to fixed/absolute elements near screen edges when viewport-fit=cover
+     is active — keeps content clear of the notch and home indicator.
+     On desktop / browsers without safe areas these resolve to 0px (no-op). */
+  .pt-safe  { padding-top:    env(safe-area-inset-top,    0px); }
+  .pb-safe  { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .pl-safe  { padding-left:   env(safe-area-inset-left,   0px); }
+  .pr-safe  { padding-right:  env(safe-area-inset-right,  0px); }
 }
 
 /*body {*/

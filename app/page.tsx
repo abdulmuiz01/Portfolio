@@ -110,9 +110,9 @@ export default function Page() {
   }, [transitionTo])
 
   return (
-      <div className="fixed inset-0 overflow-hidden touch-none bg-background text-foreground">
-        <div className="fixed top-6 left-6 z-50">
-        <span className="text-xs md:text-sm lg:text-md font-body text-muted-foreground tracking-[0.2em] uppercase">
+      <div className="fixed inset-x-0 top-0 h-dvh overflow-hidden touch-none bg-background text-foreground">
+        <div className="fixed top-6 left-6 z-50 pt-safe pl-safe">
+        <span className="text-fluid-sm font-body text-muted-foreground tracking-[0.2em] uppercase">
           {sections[currentIndex]?.label}
         </span>
         </div>
@@ -144,13 +144,13 @@ export default function Page() {
                 }}
                 className="flex h-full w-full items-center justify-center "
             >
-              <div className="w-full flex items-center justify-center ">
+              <div className="w-full h-full flex items-center justify-center">
                 {sections[currentIndex].component}
               </div>
             </motion.div>
           </AnimatePresence>
           {/* Nav dots — top-right on mobile, right-center on desktop */}
-          <div className="fixed right-4 top-4 z-50 flex flex-col items-end gap-2 md:top-1/2 md:-translate-y-1/2 md:items-center">
+          <div className="fixed right-4 top-4 z-50 flex flex-col items-end gap-2 pt-safe pr-safe md:top-1/2 md:-translate-y-1/2 md:pt-0 md:pr-0 md:items-center">
             {/* Counter: visible only on mobile, sits above the dots */}
             <span className="font-heading text-xs text-muted-foreground md:hidden">
               <span className="neon-text">{String(currentIndex + 1).padStart(2, "0")}</span>
@@ -175,7 +175,7 @@ export default function Page() {
           </div>
         </div>
         {/* Counter on desktop only — stays bottom-left */}
-        <div className="fixed bottom-6 left-6 z-50 hidden md:block">
+        <div className="fixed bottom-6 left-6 z-50 hidden md:block pb-safe pl-safe">
           <span className="text-sm font-heading text-muted-foreground">
             <span className="neon-text">{String(currentIndex + 1).padStart(2, "0")}</span>
             <span className="mx-1">/</span>
