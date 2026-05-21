@@ -65,6 +65,7 @@ const ProjectsSection = () => {
                 transition={{
                     duration: 0.55,
                     ease: [0.32, 0, 0.18, 1],
+                    delay:0.2
                 }}
                 className="flex flex-col items-center justify-center gap-fluid-sm">
                 <MagneticText strength={0.5} className="text-lg font-bold">

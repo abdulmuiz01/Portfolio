@@ -70,6 +70,7 @@ const AboutSection = () => {
                 transition={{
                     duration: 0.55,
                     ease: [0.32, 0, 0.18, 1],
+                    delay:0.2
                 }}
 
                 className="flex flex-col gap-fluid-sm items-center md:items-start justify-center

@@ -2,10 +2,32 @@ import {MagneticButton} from "@/components/magnetic/MagneticButton";
 import {SpotlightText} from "@/components/Spotlight";
 import {MagneticText} from "@/components/magnetic/MagneticText";
 import {TextScramble} from "@/components/TextScramble";
+import { motion } from "framer-motion";
 
 const ContactSection = () => {
     return (
-        <div className="flex flex-col gap-fluid-lg items-center justify-center
+        <motion.div
+            initial={{
+                opacity: 0,
+                scale: 0.55,
+                filter: 'blur(12px)',
+            }}
+            animate={{
+                opacity: 1,
+                scale: 1,
+                filter: 'blur(0px)',
+            }}
+            exit={{
+                opacity: 0,
+                scale: 1.18,
+                filter: 'blur(10px)',
+            }}
+            transition={{
+                duration: 0.55,
+                ease: [0.32, 0, 0.18, 1],
+                delay:0.2
+            }}
+            className="flex flex-col gap-fluid-lg items-center justify-center
                         w-full max-w-2xl mx-auto px-4 sm:px-6 text-center">
             <div className="flex flex-col items-center justify-center gap-fluid-md">
                 <MagneticText
@@ -42,7 +64,7 @@ const ContactSection = () => {
                     </a>
                 ))}
             </div>
-        </div>
+        </motion.div>
     );
 };
 
