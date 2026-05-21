@@ -27,7 +27,7 @@ export default function Page() {
     const isTransitioning = useRef(false)
     const touchStartY = useRef(0)
 
-    const zoom = useSpring(0, {stiffness: 300, damping: 70, mass: 1.1})
+    const zoom = useSpring(0, {stiffness: 300, damping: 80, mass: 1.1})
 
     const transitionTo = useCallback((nextIndex: number) => {
         if (
@@ -42,7 +42,7 @@ export default function Page() {
         let hasSwitched = false
 
         animate(zoom, nextIndex, {
-            duration: 0.50,
+            duration: 1,
             ease: [0.32, 0, 0.18, 1],
             onUpdate: (v) => {
                 if (hasSwitched) return
@@ -94,7 +94,6 @@ export default function Page() {
         }
 
         const handleTouchEnd = (e: TouchEvent) => {
-            // If the user was dragging an interactive element, don't switch sections
             if (dragState.active) {
                 dragState.active = false;
                 return;
@@ -147,7 +146,7 @@ export default function Page() {
                             filter: 'blur(10px)',
                         }}
                         transition={{
-                            duration: 0.55,
+                            duration: 0.35,
                             ease: [0.32, 0, 0.18, 1],
                         }}
                         className="flex h-full w-full items-center justify-center "
@@ -165,7 +164,7 @@ export default function Page() {
                                 key={section.id}
                                 onClick={() => transitionTo(idx)}
                                 aria-label={section.label}
-                                className={`h-3 w-3 rounded-full transition-all duration-200 ${
+                                className={`h-4 w-4 rounded-full transition-all duration-200 ${
                                     idx === currentIndex
                                         ? 'scale-200 shadow-[0_0_10px] shadow-primary bg-radial from-primary to-background/20'
                                         : 'bg-muted-foreground/30 hover:scale-125 hover:bg-white/50'

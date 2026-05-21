@@ -14,9 +14,26 @@ const AboutSection = () => {
                         gap-[clamp(2rem,5vw,5rem)]">
 
             <motion.div
-                initial={{opacity: 0, y: 40}} whileInView={{opacity: 1, y: 0}}
-                viewport={{once: true}}
-                transition={{duration: 0.6}}
+                initial={{
+                    opacity: 0,
+                    scale: 0.55,
+                    filter: 'blur(12px)',
+                }}
+                animate={{
+                    opacity: 1,
+                    scale: 1,
+                    filter: 'blur(0px)',
+                }}
+                exit={{
+                    opacity: 0,
+                    scale: 1.18,
+                    filter: 'blur(10px)',
+                }}
+                transition={{
+                    duration: 0.4,
+                    ease: [0.32, 0, 0.18, 1],
+                    delay: 0.5
+                }}
                 className="flex shrink-0 justify-center"
             >
                 <MagneticCard
@@ -24,22 +41,17 @@ const AboutSection = () => {
                     className="group relative rounded-full"
                     style={{
                         boxShadow: [
-                            /* Lit surface — top gleam */
                             'inset 0 3px 10px rgba(255,255,255,0.10)',
-                            /* Neon rim */
                             '0 0 18px rgba(0, 220, 200, 0.18)',
-                            /* Disc edge — stacked layers make it feel thick */
                             '0 3px 0 rgba(0,0,0,0.95)',
                             '0 6px 0 rgba(0,0,0,0.80)',
                             '0 9px 0 rgba(0,0,0,0.60)',
                             '0 12px 0 rgba(0,0,0,0.35)',
-                            /* Elevation */
                             '0 20px 50px rgba(0,0,0,1)',
                         ].join(', '),
                     }}
                 >
                     <TiltCard className="rounded-full overflow-hidden">
-
                         <Image
                             src="/profile.png"
                             width={500}
@@ -50,7 +62,6 @@ const AboutSection = () => {
                     </TiltCard>
                 </MagneticCard>
             </motion.div>
-
             <motion.div
                 initial={{
                     opacity: 0,
@@ -68,9 +79,9 @@ const AboutSection = () => {
                     filter: 'blur(10px)',
                 }}
                 transition={{
-                    duration: 0.55,
+                    duration: 0.4,
                     ease: [0.32, 0, 0.18, 1],
-                    delay:0.1
+                    delay:0.5
                 }}
 
                 className="flex flex-col gap-fluid-sm items-center md:items-start justify-center

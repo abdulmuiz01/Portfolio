@@ -63,7 +63,7 @@ const ProjectsSection = () => {
                     filter: 'blur(10px)',
                 }}
                 transition={{
-                    duration: 0.55,
+                    duration: 0.4,
                     ease: [0.32, 0, 0.18, 1],
                     delay: 0.2
                 }}
@@ -92,9 +92,9 @@ const ProjectsSection = () => {
                     filter: 'blur(10px)',
                 }}
                 transition={{
-                    duration: 0.55,
+                    duration: 0.4,
                     ease: [0.32, 0, 0.18, 1],
-                    delay: 0.4
+                    delay: 0.3
                 }}
             >
                 <TiltCard className="w-full rounded-3xl">

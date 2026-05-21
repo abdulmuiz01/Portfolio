@@ -51,9 +51,9 @@ const SkillsSection = () => {
                     filter: 'blur(10px)',
                 }}
                 transition={{
-                    duration: 0.55,
+                    duration: 0.4,
                     ease: [0.32, 0, 0.18, 1],
-                    delay: 0.2
+                    delay: 0.1
                 }}
                 className="flex flex-col items-center justify-center gap-fluid-sm">
                 <MagneticText strength={0.5} className="text-lg font-bold">
@@ -80,9 +80,9 @@ const SkillsSection = () => {
                     filter: 'blur(10px)',
                 }}
                 transition={{
-                    duration: 0.55,
+                    duration: 0.4,
                     ease: [0.32, 0, 0.18, 1],
-                    delay: 0.4
+                    delay: 0.15
                 }}
             >
                 <TiltCard className="w-full rounded-3xl ">
