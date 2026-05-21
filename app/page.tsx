@@ -12,6 +12,7 @@ import ContactSection from '@/components/ContactSection'
 import Footer from '@/components/Footer'
 import TunnelBackground from '@/components/TunnelBackground'
 import {ScrollProgress} from '@/components/ScrollProgress'
+import Stepper from '@/components/Stepper'
 
 interface Section {
     id: string
@@ -118,14 +119,14 @@ export default function Page() {
 
     return (
         <div className="fixed inset-x-0 top-0 h-screen overflow-hidden touch-none bg-background text-foreground">
-            <div className="fixed top-6 left-6 z-50 pl-safe">
-        <span className="text-fluid-sm font-body text-muted-foreground tracking-[0.2em] uppercase">
-          {sections[currentIndex]?.label}
-        </span>
-            </div>
             <ScrollProgress zoom={zoom} total={SECTION_COUNT}/>
             <TunnelBackground zoom={zoom}/>
-
+            <Stepper
+                steps={sections.map(s => ({id: s.id, label: s.label}))}
+                current={currentIndex}
+                onNavigate={transitionTo}
+                zoom={zoom}
+            />
             <div className="relative flex justify-center z-30 h-full w-full ">
                 <AnimatePresence mode="wait">
                     <motion.div
@@ -156,30 +157,6 @@ export default function Page() {
                         </div>
                     </motion.div>
                 </AnimatePresence>
-                <div className="fixed right-4 top-7 z-50 flex flex-col items-end gap-2 pr-safe
-                          md:pt-0 md:pr-0 md:items-center">
-                    <div className="flex flex-row gap-5">
-                        {sections.map((section, idx) => (
-                            <button
-                                key={section.id}
-                                onClick={() => transitionTo(idx)}
-                                aria-label={section.label}
-                                className={`h-4 w-4 rounded-full transition-all duration-200 ${
-                                    idx === currentIndex
-                                        ? 'scale-200 shadow-[0_0_10px] shadow-primary bg-radial from-primary to-background/20'
-                                        : 'bg-muted-foreground/30 hover:scale-125 hover:bg-white/50'
-                                }`}
-                            />
-                        ))}
-                    </div>
-                </div>
-            </div>
-            <div className="fixed bottom-6 left-6 z-50 hidden md:block pl-safe">
-          <span className="text-lg font-heading text-muted-foreground">
-            <span className="neon-text">{String(currentIndex + 1).padStart(2, "0")}</span>
-            <span className="mx-1">/</span>
-              {String(sections.length).padStart(2, "0")}
-          </span>
             </div>
         </div>
     )
