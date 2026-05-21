@@ -93,7 +93,6 @@ export default function Page() {
 
       const deltaY = touchStartY.current - e.changedTouches[0].clientY
 
-      // Only respond to vertical swipes; ignore horizontal gestures
       if (Math.abs(deltaY) < 50) return
       if (isTransitioning.current) return
 
@@ -150,23 +149,16 @@ export default function Page() {
             </motion.div>
           </AnimatePresence>
           {/* Nav dots — top-right on mobile, right-center on desktop */}
-          <div className="fixed right-4 top-4 z-50 flex flex-col items-end gap-2  pr-safe md:top-1/2 md:-translate-y-1/2 md:pt-0 md:pr-0 md:items-center">
-            {/* Counter: visible only on mobile, sits above the dots */}
-            <span className="font-heading text-xs text-muted-foreground md:hidden">
-              <span className="neon-text">{String(currentIndex + 1).padStart(2, "0")}</span>
-              <span className="mx-1">/</span>
-              {String(sections.length).padStart(2, "0")}
-            </span>
-            {/* Dots: row on mobile, column on desktop */}
+          <div className="fixed right-4 top-7 z-50 flex flex-col items-end gap-2  pr-safe md:top-1/2 md:-translate-y-1/2 md:pt-0 md:pr-0 md:items-center">
             <div className="flex flex-row gap-2 md:flex-col md:gap-3">
               {sections.map((section, idx) => (
                   <button
                       key={section.id}
                       onClick={() => transitionTo(idx)}
                       aria-label={section.label}
-                      className={`h-2 w-2 rounded-full transition-all duration-500 ${
+                      className={`h-3 w-3 rounded-full transition-all duration-500 ${
                           idx === currentIndex
-                              ? 'scale-150 bg-primary shadow-[0_0_20px] shadow-primary'
+                              ? 'scale-150  shadow-[0_0_10px] shadow-primary'
                               : 'bg-white/20 hover:scale-125 hover:bg-white/50'
                       }`}
                   />
@@ -174,9 +166,8 @@ export default function Page() {
             </div>
           </div>
         </div>
-        {/* Counter on desktop only — stays bottom-left */}
         <div className="fixed bottom-6 left-6 z-50 hidden md:block pl-safe">
-          <span className="text-sm font-heading text-muted-foreground">
+          <span className="text-lg font-heading text-muted-foreground">
             <span className="neon-text">{String(currentIndex + 1).padStart(2, "0")}</span>
             <span className="mx-1">/</span>
             {String(sections.length).padStart(2, "0")}

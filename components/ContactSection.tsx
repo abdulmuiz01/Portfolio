@@ -22,10 +22,12 @@ const ContactSection = () => {
                 </p>
             </div>
             <MagneticButton
-                className="inline-block border border-primary text-primary
-                           px-[clamp(1.5rem,4vw,2rem)] py-[clamp(0.5rem,1.5vh,0.75rem)]
-                           rounded-lg font-heading text-fluid-sm tracking-wider uppercase
-                           hover:bg-primary hover:text-primary-foreground neon-border"
+                className="flex items-center justify-center gap-2 rounded-full
+                                   w-[clamp(8rem,30vw,20rem)] h-[clamp(3rem,8vh,5rem)]
+                                   border border-border px-7 font-mono text-fluid-sm uppercase
+                                   text-foreground transition-colors duration-300
+                                   hover:border-primary/60 hover:text-background
+                                   hover:dark:bg-primary"
             >
                 <TextScramble text="Say Hello" trigger="view" />
             </MagneticButton>

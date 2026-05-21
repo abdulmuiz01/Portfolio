@@ -13,7 +13,6 @@ const AboutSection = () => {
                         px-[clamp(1rem,5vw,3rem)]
                         gap-[clamp(2rem,5vw,5rem)]">
 
-            {/* Avatar */}
             <motion.div
                 initial={{opacity: 0, y: 40}} whileInView={{opacity: 1, y: 0}}
                 viewport={{once: true}}
@@ -63,8 +62,28 @@ const AboutSection = () => {
                 </MagneticCard>
             </motion.div>
 
-            {/* Text */}
-            <div className="flex flex-col gap-fluid-sm items-center md:items-start justify-center
+            <motion.div
+                initial={{
+                    opacity: 0,
+                    scale: 0.55,
+                    filter: 'blur(12px)',
+                }}
+                animate={{
+                    opacity: 1,
+                    scale: 1,
+                    filter: 'blur(0px)',
+                }}
+                exit={{
+                    opacity: 0,
+                    scale: 1.18,
+                    filter: 'blur(10px)',
+                }}
+                transition={{
+                    duration: 0.55,
+                    ease: [0.32, 0, 0.18, 1],
+                }}
+
+                className="flex flex-col gap-fluid-sm items-center md:items-start justify-center
                             max-w-xl text-center md:text-left">
                 <MagneticText
                     strength={0.5}
@@ -81,7 +100,7 @@ const AboutSection = () => {
                     Sono un Web Developer con una forte passione per la tecnologia e lo sviluppo web full stack.
                     Amo creare interfacce intuitive e soluzioni digitali che migliorano la vita delle persone.
                 </p>
-            </div>
+            </motion.div>
         </div>
     );
 };
