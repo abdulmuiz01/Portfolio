@@ -1,4 +1,5 @@
 import { Space_Grotesk } from "next/font/google"
+import type { Viewport } from "next"
 
 const space_grotesk = Space_Grotesk ({
     subsets: ["latin"],
@@ -8,17 +9,16 @@ const space_grotesk = Space_Grotesk ({
 
 import "./globals.css"
 
-
+export const viewport: Viewport = {
+    width: "device-width",
+    initialScale: 1,
+    viewportFit: "cover",
+    height: "device-height"
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en" className={`${space_grotesk.variable} dark`}>
-        <head>
-            <link rel="manifest" href="/manifest.json" />
-            <meta name="theme-color" content="#000000" />
-            <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-            <title></title>
-        </head>
         <body className="font-sans">
         {children}
         </body>

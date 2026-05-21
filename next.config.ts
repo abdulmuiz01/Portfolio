@@ -4,11 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
 };
 
-const withPWA = require('next-pwa')({
-    dest: 'public',
-    register: true,
-    skipWaiting: true,
-});
-
-
+module.exports = {
+    allowedDevOrigins: ['192.168.1.57'],
+}
 export default nextConfig;

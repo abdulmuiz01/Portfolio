@@ -39,8 +39,8 @@ const LAYER_STYLES = Array.from({ length: LAYERS }).map((_, i) => {
 
 export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
     return (
-        <div
-            className="fixed inset-0 z-0 flex items-center justify-center overflow-hidden pointer-events-none"
+        <MagneticCard
+            className="fixed inset-x-0 top-0 h-screen z-0 flex items-center justify-center overflow-hidden pointer-events-none"
             style={{
                 perspective: `${PERSPECTIVE}px`,
                 perspectiveOrigin: '50% 50%',
@@ -54,7 +54,7 @@ export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
             <div className="absolute h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
             <div className="absolute h-14 w-14 rounded-full bg-primary/20 blur-2xl" />
             <div className="absolute h-4 w-4 rounded-full bg-primary/70 blur-sm" />
-        </div>
+        </MagneticCard>
     )
 }
 

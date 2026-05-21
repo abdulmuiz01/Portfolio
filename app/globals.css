@@ -210,10 +210,12 @@
 
 html {
   overscroll-behavior: none;
+  background-color: white;
 }
 
 body {
   font-family: var(--font-space_grotesk), sans-serif;
   overscroll-behavior: none;
+  background-color: oklch(0.14 0.02 250);
 }
 
