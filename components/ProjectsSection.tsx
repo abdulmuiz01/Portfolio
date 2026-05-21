@@ -4,7 +4,22 @@ import {SpotlightGrid, SpotlightCard} from "@/components/Spotlight";
 import {MagneticText} from "@/components/magnetic/MagneticText";
 import {TextScramble} from "@/components/TextScramble";
 import {TiltCard} from "@/components/TiltCard";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
+import type {CSSProperties} from "react";
+
+const METAL_STYLE: CSSProperties = {
+    background: 'linear-gradient(160deg, hsl(220,6%,13%) 0%, hsl(220,5%,7%) 55%, hsl(220,6%,10%) 100%)',
+    boxShadow: [
+        'inset 0 1px 0 rgba(255,255,255,0.07)',   // top-edge — barely-there matte rim
+        'inset 1px 0 rgba(255,255,255,0.03)',      // left-edge whisper
+        'inset 0 -1px 0 rgba(0,0,0,0.7)',         // bottom inner shadow
+        'inset -1px 0 rgba(0,0,0,0.4)',           // right inner shadow
+        '0 0 0 1px rgba(0,0,0,0.6)',              // thin outer outline
+        '0 4px 0 rgba(0,0,0,0.9)',               // visible bottom edge (card thickness)
+        '0 8px 32px rgba(0,0,0,0.7)',            // elevation
+        '0 24px 64px rgba(0,0,0,0.4)',           // far ambient shadow
+    ].join(', '),
+};
 
 const projects = [
     {
@@ -73,13 +88,17 @@ const ProjectsSection = () => {
                         <MagneticCard
                             key={project.title}
                             strength={0.15}
-                            className="group relative rounded-3xl
-                                       border border-background/10 bg-background/5 backdrop-blur-sm
-                                       dark:border-foreground/10 dark:bg-foreground/5 cursor-pointer"
+                            className="group relative rounded-lg cursor-pointer"
+                            style={METAL_STYLE}
                         >
                             <SpotlightCard color="primary" radius={280}
-                                           className="p-5 rounded-3xl h-full flex flex-col min-h-44">
-                                <span aria-hidden className="pointer-events-none absolute inset-x-6 top-0 h-px origin-left scale-x-0 bg-linear-to-r from-transparent via-primary to-transparent transition-transform duration-500 group-hover:scale-x-100 group-active:scale-x-100 group-data-[touching]:scale-x-100" />
+                                           className="p-5 rounded-lg h-full flex flex-col min-h-44">
+                                {/* Brushed-metal surface sheen */}
+                                <span aria-hidden
+                                      className="pointer-events-none absolute inset-0 bg-linear-to-br from-white/[0.07] via-transparent to-black/10"/>
+                                <span aria-hidden className="pointer-events-none absolute inset-x-6 top-0 h-px origin-left scale-x-0 bg-linear-to-r from-transparent
+                                                             via-primary to-transparent transition-transform duration-500 group-hover:scale-x-100
+                                                             group-active:scale-x-100 group-data-touching:scale-x-100"/>
                                 <span className="text-muted-foreground text-xs font-body">
                                     0{i + 1}
                                 </span>

@@ -80,33 +80,50 @@ export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
                 ctx.stroke()
             }
 
-            // 4 corner corridor lines — the only depth-direction lines
-            ctx.strokeStyle = 'rgba(0, 220, 200, 0.5)'
+            // 4 corner corridor lines — shaded by position (top=bright, bottom=dim)
             ctx.lineWidth = 0.1
-            seg(-halfW, -halfH, Z_NEAR, -halfW, -halfH, Z_FAR)
-            seg( halfW, -halfH, Z_NEAR,  halfW, -halfH, Z_FAR)
-            seg( halfW,  halfH, Z_NEAR,  halfW,  halfH, Z_FAR)
-            seg(-halfW,  halfH, Z_NEAR, -halfW,  halfH, Z_FAR)
+            const corners: [number, number, number][] = [
+                [-halfW, -halfH, 0.70],  // top-left
+                [ halfW, -halfH, 0.80],  // top-right
+                [ halfW,  halfH, 0.35],  // bottom-right
+                [-halfW,  halfH, 0.25],  // bottom-left
+            ]
+            for (const [x, y, shade] of corners) {
+                ctx.strokeStyle = `rgba(0, 220, 200, ${(0.5 * shade).toFixed(3)})`
+                seg(x, y, Z_NEAR, x, y, Z_FAR)
+            }
 
-            // Animated rings — square cross-sections flying toward the viewer
+            // Animated rings — each edge drawn separately with directional shading
+            // Light source from above: top=bright, bottom=dim, sides=mid
+            const SHADE = { top: 1.0, right: 0.6, bottom: 0.22, left: 0.55 }
             const zBase = Z_NEAR + GRID - (offset % GRID)
             for (let d = zBase; d < Z_FAR; d += GRID) {
                 const t = 1 - (d - Z_NEAR) / (Z_FAR - Z_NEAR)
-                ctx.strokeStyle = `rgba(0, 220, 200, ${(t * t * 0.1).toFixed(3)})`
-                ctx.lineWidth = t > 0.6 ? 1.3 : t > 0.3 ? 0.9 : 0.4
+                const base = t * t * 0.1
+                const lw   = t > 0.6 ? 1.3 : t > 0.3 ? 0.9 : 0.4
 
-                const [x0, y0] = proj(-halfW, -halfH, d)
-                const [x1, y1] = proj( halfW, -halfH, d)
-                const [x2, y2] = proj( halfW,  halfH, d)
-                const [x3, y3] = proj(-halfW,  halfH, d)
+                const tl = proj(-halfW, -halfH, d)
+                const tr = proj( halfW, -halfH, d)
+                const br = proj( halfW,  halfH, d)
+                const bl = proj(-halfW,  halfH, d)
 
-                ctx.beginPath()
-                ctx.moveTo(x0, y0)
-                ctx.lineTo(x1, y1)
-                ctx.lineTo(x2, y2)
-                ctx.lineTo(x3, y3)
-                ctx.closePath()
-                ctx.stroke()
+                const edge = (
+                    [ax, ay]: [number, number],
+                    [bx, by]: [number, number],
+                    shade: number,
+                ) => {
+                    ctx.strokeStyle = `rgba(0, 220, 200, ${(base * shade).toFixed(3)})`
+                    ctx.lineWidth = lw
+                    ctx.beginPath()
+                    ctx.moveTo(ax, ay)
+                    ctx.lineTo(bx, by)
+                    ctx.stroke()
+                }
+
+                edge(tl, tr, SHADE.top)    // top   — lit
+                edge(tr, br, SHADE.right)  // right — mid
+                edge(br, bl, SHADE.bottom) // bottom — shadow
+                edge(bl, tl, SHADE.left)   // left  — mid-dim
             }
 
             ctx.restore()
