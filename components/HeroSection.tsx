@@ -13,7 +13,7 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
         <div className="flex flex-col items-center justify-center h-full w-full
                         px-4 sm:px-6 text-center
                         gap-[clamp(0.75rem,2vw,2rem)]">
-            <div className="flex flex-col items-center gap-[clamp(0.75rem,2vw,2rem)] w-full max-w-5xl mx-auto">
+            <div className="flex flex-col items-center gap-10 w-full max-w-5xl mx-auto">
                 <motion.p
                     initial={{opacity: 0}}
                     animate={{opacity: 1}}
@@ -33,8 +33,8 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                         strength={0.15}
                         className="text-fluid-hero font-bold leading-tight"
                     >
-                        <span className="neon-text">Abdul Muiz</span>{" "}
-                        <span className="text-foreground">Khan</span>
+                        <span className="neon-text">Welcome</span>
+                        <span className="text-foreground">.</span>
                     </MagneticText>
                 </motion.div>
 

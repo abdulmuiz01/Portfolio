@@ -97,6 +97,7 @@ const AboutSection = () => {
                     </SpotlightText>
                 </h2>
                 <p className="text-muted-foreground font-body leading-relaxed text-fluid-sm">
+                    Ciao! Mi chiamo Abdul Muiz Khan. <br/>
                     Sono un Web Developer con una forte passione per la tecnologia e lo sviluppo web full stack.
                     Amo creare interfacce intuitive e soluzioni digitali che migliorano la vita delle persone.
                 </p>

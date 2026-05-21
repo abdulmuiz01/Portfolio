@@ -9,14 +9,14 @@ interface TunnelBackgroundProps {
 }
 
 const LAYERS = 6
-const SPACING = 250
+const SPACING = 2250
 const PERSPECTIVE = 900
 const FAR_FADE = SPACING * 10
 const NEAR_CLIP = 180
 // Smooth scaling: ~75vw per layer unit, capped at the original lg pixel sizes
 // Without the cap, large viewports (1440px+) produce 6000px+ GPU textures → compositor drop-outs
 const BASE_VW = 75
-const BASE_MAX_PX = 800
+const BASE_MAX_PX = 1600
 
 const COLORS = [
     'var(--primary)',
@@ -59,9 +59,9 @@ export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
 }
 
 const Layer = memo(function Layer({
-    index,
-    zoom,
-}: {
+                                      index,
+                                      zoom,
+                                  }: {
     index: number
     zoom: MotionValue<number>
 }) {
@@ -112,7 +112,7 @@ const Layer = memo(function Layer({
             }}
         >
             <MagneticCard
-                className="h-full w-full rounded-sm border text-primary/10 bg-primary/0.5"
+                className="h-full w-full rounded-sm border-2 text-primary/10 bg-primary/0.5"
                 style={layerStyle}
             />
         </motion.div>
