@@ -15,11 +15,13 @@ export function TextScramble({ text, className, delay = 0, trigger = "mount" }: 
   const started = useRef(false);
 
   useEffect(() => {
+    started.current = false;
+
     const start = () => {
       if (started.current) return;
       started.current = true;
 
-      const from = out;
+      const from = ref.current?.innerHTML.replace(/<[^>]*>/g, "") ?? out;
       const to = text;
       const length = Math.max(from.length, to.length);
       const queue: { from: string; to: string; start: number; end: number; char?: string }[] = [];
@@ -67,6 +69,15 @@ export function TextScramble({ text, className, delay = 0, trigger = "mount" }: 
 
     const el = ref.current;
     if (!el) return;
+
+    // If already visible (e.g. language was switched while section is shown), run immediately
+    const rect = el.getBoundingClientRect();
+    const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+    if (isVisible) {
+      start();
+      return;
+    }
+
     const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {

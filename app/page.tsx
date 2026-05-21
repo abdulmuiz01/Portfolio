@@ -3,6 +3,7 @@
 import {useRef, useState, useEffect, useMemo, useCallback, JSX} from 'react'
 import {dragState} from '@/lib/dragState'
 import {motion, useSpring, animate, AnimatePresence} from 'framer-motion'
+import {useTranslations} from '@/lib/i18n'
 
 import HeroSection from '@/components/HeroSection'
 import AboutSection from '@/components/AboutSection'
@@ -24,6 +25,7 @@ interface Section {
 const SECTION_COUNT = 6
 
 export default function Page() {
+    const t = useTranslations()
     const [currentIndex, setCurrentIndex] = useState(0)
     const currentIndexRef = useRef(0)
     const isTransitioning = useRef(false)
@@ -66,19 +68,19 @@ export default function Page() {
     }, [zoom])
 
     const sections: Section[] = useMemo(() => [
-        {id: 'hero', label: 'Home', component: <HeroSection onNext={() => transitionTo(1)}/>},
-        {id: 'about', label: 'About', component: <AboutSection/>},
-        {id: 'experience', label: 'Experience', component: <ExperienceSection/>},
-        {id: 'tech', label: 'Tech Stack', component: <TechStackSection/>},
-        {id: 'projects', label: 'Projects', component: <ProjectsSection/>},
+        {id: 'hero', label: t.nav.home, component: <HeroSection onNext={() => transitionTo(1)}/>},
+        {id: 'about', label: t.nav.about, component: <AboutSection/>},
+        {id: 'experience', label: t.nav.experience, component: <ExperienceSection/>},
+        {id: 'tech', label: t.nav.tech, component: <TechStackSection/>},
+        {id: 'projects', label: t.nav.projects, component: <ProjectsSection/>},
         {
             id: 'contact',
-            label: 'Contact',
+            label: t.nav.contact,
             component: <div className="flex flex-col justify-center items-center gap-20 ">
                 <ContactSection/><Footer/>
             </div>
         },
-    ], [transitionTo])
+    ], [transitionTo, t])
 
     useEffect(() => {
         const handleWheel = (e: WheelEvent) => {

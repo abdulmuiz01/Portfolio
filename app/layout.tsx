@@ -1,7 +1,9 @@
-import { Space_Grotesk } from "next/font/google"
-import type { Viewport } from "next"
-import { ThemeProvider } from "@/components/theme-provider"
+import {Space_Grotesk} from "next/font/google"
+import type {Viewport} from "next"
+import {ThemeProvider} from "@/components/theme-provider"
+import {LanguageProvider} from "@/lib/i18n"
 import ThemeToggle from "@/components/ThemeToggle"
+import LangToggle from "@/components/LangToggle"
 
 const space_grotesk = Space_Grotesk({
     subsets: ["latin"],
@@ -18,13 +20,16 @@ export const viewport: Viewport = {
     height: "device-height"
 }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({children}: {children: React.ReactNode}) {
     return (
-        <html lang="en" className={space_grotesk.variable} suppressHydrationWarning>
+        <html lang="it" className={space_grotesk.variable} suppressHydrationWarning>
         <body className="font-sans">
-        <ThemeProvider defaultTheme="dark">
-            <ThemeToggle />
-            {children}
+        <ThemeProvider defaultTheme="dark" enableSystem={false}>
+            <LanguageProvider>
+                <ThemeToggle/>
+                <LangToggle/>
+                {children}
+            </LanguageProvider>
         </ThemeProvider>
         </body>
         </html>

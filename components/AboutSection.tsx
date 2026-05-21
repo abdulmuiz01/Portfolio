@@ -1,41 +1,31 @@
-import {motion} from "framer-motion";
-import Image from "next/image";
-import {MagneticCard} from "@/components/magnetic/MagneticCard";
-import {SpotlightText} from "@/components/Spotlight";
-import {MagneticText} from "@/components/magnetic/MagneticText";
-import {TextScramble} from "@/components/TextScramble";
-import {TiltCard} from "@/components/TiltCard";
+'use client'
+
+import {motion} from "framer-motion"
+import Image from "next/image"
+import {MagneticCard} from "@/components/magnetic/MagneticCard"
+import {SpotlightText} from "@/components/Spotlight"
+import {MagneticText} from "@/components/magnetic/MagneticText"
+import {TextScramble} from "@/components/TextScramble"
+import {TiltCard} from "@/components/TiltCard"
+import {useTranslations} from "@/lib/i18n"
+
+const ENTRY = {
+    initial: {opacity: 0, scale: 0.55, filter: 'blur(12px)'},
+    animate: {opacity: 1, scale: 1, filter: 'blur(0px)'},
+    exit: {opacity: 0, scale: 1.18, filter: 'blur(10px)'},
+    transition: {duration: 0.4, ease: [0.32, 0, 0.18, 1] as const, delay: 0.5},
+}
 
 const AboutSection = () => {
+    const t = useTranslations()
+
     return (
         <div className="flex flex-col md:flex-row items-center justify-center
                         w-full max-w-6xl mx-auto
                         px-[clamp(1rem,5vw,3rem)]
                         gap-[clamp(2rem,5vw,5rem)]">
 
-            <motion.div
-                initial={{
-                    opacity: 0,
-                    scale: 0.55,
-                    filter: 'blur(12px)',
-                }}
-                animate={{
-                    opacity: 1,
-                    scale: 1,
-                    filter: 'blur(0px)',
-                }}
-                exit={{
-                    opacity: 0,
-                    scale: 1.18,
-                    filter: 'blur(10px)',
-                }}
-                transition={{
-                    duration: 0.4,
-                    ease: [0.32, 0, 0.18, 1],
-                    delay: 0.5
-                }}
-                className="flex shrink-0 justify-center"
-            >
+            <motion.div {...ENTRY} className="flex shrink-0 justify-center">
                 <MagneticCard
                     strength={0.45}
                     className="group relative rounded-full"
@@ -56,61 +46,34 @@ const AboutSection = () => {
                             src="/profile.png"
                             width={500}
                             height={500}
-                            alt="Picture of the author"
+                            alt="Abdul Muiz Khan"
                             className="rounded-full size-fluid-avatar block"
                         />
                     </TiltCard>
                 </MagneticCard>
             </motion.div>
-            <motion.div
-                initial={{
-                    opacity: 0,
-                    scale: 0.55,
-                    filter: 'blur(12px)',
-                }}
-                animate={{
-                    opacity: 1,
-                    scale: 1,
-                    filter: 'blur(0px)',
-                }}
-                exit={{
-                    opacity: 0,
-                    scale: 1.18,
-                    filter: 'blur(10px)',
-                }}
-                transition={{
-                    duration: 0.4,
-                    ease: [0.32, 0, 0.18, 1],
-                    delay:0.5
-                }}
 
+            <motion.div
+                {...ENTRY}
                 className="flex flex-col gap-fluid-sm items-center md:items-start justify-center
-                            max-w-xl text-center md:text-left">
-                <MagneticText
-                    strength={0.5}
-                    className="text-lg font-bold"
-                >
-                    <TextScramble text="About" trigger="view" className="neon-text uppercase tracking-[0.3em]"/>
+                            max-w-xl text-center md:text-left"
+            >
+                <MagneticText strength={0.5} className="text-lg font-bold">
+                    <TextScramble text={t.about.label} trigger="view" className="neon-text uppercase tracking-[0.3em]"/>
                 </MagneticText>
                 <h2 className="text-fluid-2xl font-heading font-bold">
-                    <SpotlightText>
-                        Passione per il web.
-                    </SpotlightText>
+                    <SpotlightText>{t.about.heading}</SpotlightText>
                 </h2>
-                <p className="text-muted-foreground font-body leading-relaxed text-fluid-sm">
-                    Hi! I&#39;m Abdul Muiz Khan.<br/>
-                    A Junior Full Stack Developer graduated from ITS Incom, Busto Arsizio.
-                    I&#39;m passionate about building intuitive interfaces and digital solutions
-                    that make a real difference. With hands-on experience in healthcare and commercial
-                    projects, I thrive in collaborative, agile environments where I can grow every day.
+                <p className="text-muted-foreground font-body leading-relaxed text-fluid-sm whitespace-pre-line">
+                    {t.about.bio}
                 </p>
-                <div className="flex gap-1 items-center text-muted-foreground font-body text-fluid-sm">
-                    <span className="text-primary ">Languages -</span>
-                    <span>Italian · Urdu · English (C1) · French (A2)</span>
-                </div>
+                <p className="text-muted-foreground font-body text-fluid-sm">
+                    <span className="text-primary font-mono text-xs">{t.about.langLabel} —</span>{' '}
+                    {t.about.languages}
+                </p>
             </motion.div>
         </div>
-    );
-};
+    )
+}
 
-export default AboutSection;
+export default AboutSection

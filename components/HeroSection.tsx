@@ -1,14 +1,19 @@
-import {motion} from "framer-motion";
-import {MagneticButton} from "./magnetic/MagneticButton";
-import {MagneticText} from "@/components/magnetic/MagneticText";
-import {SpotlightText} from "@/components/Spotlight";
-import {TextScramble} from "@/components/TextScramble";
+'use client'
+
+import {motion} from "framer-motion"
+import {MagneticButton} from "./magnetic/MagneticButton"
+import {MagneticText} from "@/components/magnetic/MagneticText"
+import {SpotlightText} from "@/components/Spotlight"
+import {TextScramble} from "@/components/TextScramble"
+import {useTranslations} from "@/lib/i18n"
 
 interface HeroSectionProps {
     onNext: () => void
 }
 
 const HeroSection = ({onNext}: HeroSectionProps) => {
+    const t = useTranslations()
+
     return (
         <div className="flex flex-col items-center justify-center h-full w-full
                         px-4 sm:px-6 text-center
@@ -20,7 +25,7 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                     transition={{delay: 0.2, duration: 1}}
                     className="text-muted-foreground font-body text-fluid-sm tracking-[0.3em] uppercase"
                 >
-                    <TextScramble text="Full Stack Developer" trigger="mount" delay={300} />
+                    <TextScramble text={t.hero.role} trigger="mount" delay={300}/>
                 </motion.p>
 
                 <motion.div
@@ -34,12 +39,8 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                         className="text-fluid-hero font-bold leading-tight flex justify-center items-center"
                     >
                         <span className="neon-text">Welcome</span>
-                        <MagneticText
-                            as={"p"}
-                            strength={0.2}
-                            className="text-fluid-hero font-bold leading-tight"
-                        >
-                        <span className="text-foreground">.</span>
+                        <MagneticText as="p" strength={0.2} className="text-fluid-hero font-bold leading-tight">
+                            <span className="text-foreground">.</span>
                         </MagneticText>
                     </MagneticText>
                 </motion.div>
@@ -51,7 +52,7 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                     className="text-muted-foreground font-body text-fluid-base max-w-xl"
                 >
                     <SpotlightText>
-                        Junior Full Stack Developer · Varese, Italy
+                        {t.hero.role} · {t.hero.location}
                     </SpotlightText>
                 </motion.p>
 
@@ -65,22 +66,22 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                         animate={{y: [0, -10, 0]}}
                         transition={{duration: 2.4, repeat: Infinity, ease: "easeInOut", delay: 1.4}}
                     >
-                    <MagneticButton
-                        className="flex items-center justify-center gap-2 rounded-full
-                                   w-[clamp(8rem,30vw,20rem)] h-[clamp(3rem,8vh,5rem)]
-                                   border border-border px-7 font-mono text-fluid-sm uppercase
-                                   text-foreground transition-colors duration-300
-                                   hover:border-primary/60 hover:text-primary
-                                   bg-radial from-background to-primary/20"
-                    >
-                        <TextScramble text="Scroll" trigger="mount" delay={900} />
-                        <TextScramble text="↓" trigger="mount" delay={900} />
-                    </MagneticButton>
+                        <MagneticButton
+                            className="flex items-center justify-center gap-2 rounded-full
+                                       w-[clamp(8rem,30vw,20rem)] h-[clamp(3rem,8vh,5rem)]
+                                       border border-border px-7 font-mono text-fluid-sm uppercase
+                                       text-foreground transition-colors duration-300
+                                       hover:border-primary/60 hover:text-primary
+                                       bg-radial from-background to-primary/20"
+                        >
+                            <TextScramble text={t.hero.scroll} trigger="mount" delay={900}/>
+                            <TextScramble text="↓" trigger="mount" delay={900}/>
+                        </MagneticButton>
                     </motion.div>
                 </motion.div>
             </div>
         </div>
-    );
-};
+    )
+}
 
-export default HeroSection;
+export default HeroSection
