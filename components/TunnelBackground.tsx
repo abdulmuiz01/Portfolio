@@ -1,120 +1,133 @@
 'use client'
 
-import {memo} from 'react'
-import {motion, useTransform, MotionValue} from 'framer-motion'
-import {MagneticCard} from "@/components/magnetic/MagneticCard";
+import { useEffect, useRef } from 'react'
+import { MotionValue } from 'framer-motion'
 
 interface TunnelBackgroundProps {
     zoom: MotionValue<number>
 }
 
-const LAYERS = 6
-const SPACING = 2250
-const PERSPECTIVE = 900
-const FAR_FADE = SPACING * 10
-const NEAR_CLIP = 180
-// Smooth scaling: ~75vw per layer unit, capped at the original lg pixel sizes
-// Without the cap, large viewports (1440px+) produce 6000px+ GPU textures → compositor drop-outs
-const BASE_VW = 75
-const BASE_MAX_PX = 1600
-
-const COLORS = [
-    'var(--primary)',
-    'var(--accent)',
-    'var(--neon-dim)',
-    'var(--primary)',
-    'var(--accent)',
-    'var(--primary)',
-]
-
-// Precompute per-layer style strings at module level — never recomputed
-const LAYER_STYLES = Array.from({ length: LAYERS }).map((_, i) => {
-    const color = COLORS[i % COLORS.length]
-    const glowR = 12 + (i % 5) * 6
-    return {
-        borderColor: `hsl(${color})`,
-        boxShadow: `0 0 ${glowR}px hsl(${color}), 0 0 ${glowR * 2}px hsl(${color} / 0.35), inset 0 0 ${glowR / 1.5}px hsl(${color} / 0.3)`,
-    }
-})
-
+const GRID = 152
+const FOV = 600
+const Z_NEAR = 160
+const Z_FAR = 5240
+const DEPTH_PER_SECTION = 200
+const ROTATION_PER_SECTION = Math.PI / 4
 export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
-    return (
-        <MagneticCard
-            className="fixed inset-x-0 top-0 h-screen z-0 flex items-center justify-center overflow-hidden pointer-events-none"
-            style={{
-                perspective: `${PERSPECTIVE}px`,
-                perspectiveOrigin: '50% 50%',
-            }}
-        >
-            {Array.from({ length: LAYERS }).map((_, i) => (
-                <Layer key={i} index={i} zoom={zoom} />
-            ))}
+    const canvasRef = useRef<HTMLCanvasElement>(null)
 
-            {/* vanishing-point glow */}
-            <div className="absolute h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
-            <div className="absolute h-14 w-14 rounded-full bg-primary/20 blur-2xl" />
-            <div className="absolute h-4 w-4 rounded-full bg-primary/70 blur-sm" />
-        </MagneticCard>
+    useEffect(() => {
+        const canvas = canvasRef.current
+        if (!canvas) return
+        const ctx = canvas.getContext('2d')
+        if (!ctx) return
+
+        let w = 0
+        let h = 0
+
+        const resize = () => {
+            const dpr = window.devicePixelRatio || 1
+            w = window.innerWidth
+            h = window.innerHeight
+            canvas.width = w * dpr
+            canvas.height = h * dpr
+            canvas.style.width = `${w}px`
+            canvas.style.height = `${h}px`
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+        }
+        resize()
+        window.addEventListener('resize', resize)
+
+        let animId: number
+
+        const draw = () => {
+            const z = zoom.get()
+            const offset = z * DEPTH_PER_SECTION
+            const angle  = z * ROTATION_PER_SECTION
+
+            ctx.clearRect(0, 0, w, h)
+
+            const cx = w / 2
+            const cy = h / 2
+            const halfW = cx * Z_NEAR / FOV
+            const halfH = cy * Z_NEAR / FOV
+
+            // Rotate the whole tunnel around the vanishing point (z-axis spin)
+            ctx.save()
+            ctx.translate(cx, cy)
+            ctx.rotate(angle)
+            ctx.translate(-cx, -cy)
+
+            // Glow on every line
+            ctx.shadowColor = 'rgba(0, 220, 200, 0.75)'
+            ctx.shadowBlur = 5
+
+            const proj = (wx: number, wy: number, wz: number): [number, number] => [
+                cx + wx * FOV / wz,
+                cy + wy * FOV / wz,
+            ]
+
+            const seg = (
+                wx0: number, wy0: number, wz0: number,
+                wx1: number, wy1: number, wz1: number,
+            ) => {
+                if (wz0 <= 1 || wz1 <= 1) return
+                const [x0, y0] = proj(wx0, wy0, wz0)
+                const [x1, y1] = proj(wx1, wy1, wz1)
+                ctx.beginPath()
+                ctx.moveTo(x0, y0)
+                ctx.lineTo(x1, y1)
+                ctx.stroke()
+            }
+
+            // 4 corner corridor lines — the only depth-direction lines
+            ctx.strokeStyle = 'rgba(0, 220, 200, 0.5)'
+            ctx.lineWidth = 0.1
+            seg(-halfW, -halfH, Z_NEAR, -halfW, -halfH, Z_FAR)
+            seg( halfW, -halfH, Z_NEAR,  halfW, -halfH, Z_FAR)
+            seg( halfW,  halfH, Z_NEAR,  halfW,  halfH, Z_FAR)
+            seg(-halfW,  halfH, Z_NEAR, -halfW,  halfH, Z_FAR)
+
+            // Animated rings — square cross-sections flying toward the viewer
+            const zBase = Z_NEAR + GRID - (offset % GRID)
+            for (let d = zBase; d < Z_FAR; d += GRID) {
+                const t = 1 - (d - Z_NEAR) / (Z_FAR - Z_NEAR)
+                ctx.strokeStyle = `rgba(0, 220, 200, ${(t * t * 0.1).toFixed(3)})`
+                ctx.lineWidth = t > 0.6 ? 1.3 : t > 0.3 ? 0.9 : 0.4
+
+                const [x0, y0] = proj(-halfW, -halfH, d)
+                const [x1, y1] = proj( halfW, -halfH, d)
+                const [x2, y2] = proj( halfW,  halfH, d)
+                const [x3, y3] = proj(-halfW,  halfH, d)
+
+                ctx.beginPath()
+                ctx.moveTo(x0, y0)
+                ctx.lineTo(x1, y1)
+                ctx.lineTo(x2, y2)
+                ctx.lineTo(x3, y3)
+                ctx.closePath()
+                ctx.stroke()
+            }
+
+            ctx.restore()
+            animId = requestAnimationFrame(draw)
+        }
+
+        draw()
+        return () => {
+            cancelAnimationFrame(animId)
+            window.removeEventListener('resize', resize)
+        }
+    }, [zoom])
+
+    return (
+        <div className="fixed inset-0 z-0 pointer-events-none">
+            <canvas ref={canvasRef} className="absolute inset-0" />
+            <div className="absolute inset-0 flex items-center justify-center">
+                <div className="absolute h-40 w-40 rounded-full bg-primary/10 blur-3xl" />
+                <div className="absolute h-14 w-14 rounded-full bg-primary/20 blur-2xl" />
+                <div className="absolute h-4 w-4 rounded-full bg-primary/70 blur-sm" />
+            </div>
+        </div>
     )
 }
-
-const Layer = memo(function Layer({
-                                      index,
-                                      zoom,
-                                  }: {
-    index: number
-    zoom: MotionValue<number>
-}) {
-    const layerStyle = LAYER_STYLES[index]
-    const vwSize = `min(${(index + 1) * BASE_VW}vw, ${(index + 1) * BASE_MAX_PX}px)`
-
-    const transform = useTransform(zoom, (z) => {
-        const zPos = -(index + 1) * SPACING + z * SPACING
-        const rotate = index * 15 + z * 65
-        return `translateZ(${zPos}px) rotateZ(${rotate}deg)`
-    })
-
-    const opacity = useTransform(zoom, (z) => {
-        const zPos = -(index + 1) * SPACING + z * SPACING
-
-        const farStart = -FAR_FADE
-        const farEnd = farStart + SPACING * 3
-
-        const farAlpha =
-            zPos <= farStart
-                ? 0
-                : zPos >= farEnd
-                    ? 1
-                    : (zPos - farStart) / (farEnd - farStart)
-
-        const nearAlpha =
-            zPos <= 0 ? 1 : zPos >= NEAR_CLIP ? 0 : 1 - zPos / NEAR_CLIP
-
-        const t = nearAlpha
-        const easedNear =
-            t < 0.5
-                ? 4 * t * t * t
-                : 1 - Math.pow(-2 * t + 2, 3) / 2
-
-        return Math.min(farAlpha, easedNear)
-    })
-
-    return (
-        <motion.div
-            className="absolute"
-            style={{
-                width: vwSize,
-                height: vwSize,
-                transform,
-                opacity,
-                transformStyle: 'preserve-3d',
-                willChange: 'transform, opacity',
-            }}
-        >
-            <MagneticCard
-                className="h-full w-full rounded-sm border-2 text-primary/10 bg-primary/0.5"
-                style={layerStyle}
-            />
-        </motion.div>
-    )
-})
