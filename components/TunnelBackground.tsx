@@ -53,7 +53,7 @@ export default function TunnelBackground({ zoom }: TunnelBackgroundProps) {
             ctx.translate(-cx, -cy)
 
             if (!isMobile) {
-                ctx.shadowColor = isDark() ? 'rgba(0, 220, 200, 0.75)' : 'rgba(0, 80, 110, 0.5)'
+                ctx.shadowColor = isDark() ? 'rgba(0, 220, 200, 0.75)' : 'rgba(0, 80, 110, 1)'
                 ctx.shadowBlur  = 5
             }
 
