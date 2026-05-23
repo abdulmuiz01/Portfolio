@@ -68,7 +68,7 @@ const AboutSection = () => {
                     {t.about.bio}
                 </p>
                 <p className="text-muted-foreground font-body text-fluid-sm">
-                    <span className="text-primary font-mono text-xs">{t.about.langLabel} —</span>{' '}
+                    <span className="text-primary "> {t.about.langLabel} —</span>{' '}
                     {t.about.languages}
                 </p>
             </motion.div>

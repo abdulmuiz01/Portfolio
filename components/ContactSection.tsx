@@ -33,9 +33,7 @@ const ContactSection = () => {
                 <h2 className="text-fluid-3xl font-heading font-bold text-center">
                     <SpotlightText color="accent">{t.contact.title}</SpotlightText>
                 </h2>
-                <p className="text-muted-foreground font-body text-fluid-sm">
-                    {t.contact.subtitle}
-                </p>
+
             </div>
             <div className="flex flex-wrap gap-4 justify-center">
                 {links.map((link) => (

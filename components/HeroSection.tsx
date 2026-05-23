@@ -38,7 +38,7 @@ const HeroSection = ({onNext}: HeroSectionProps) => {
                         strength={0.15}
                         className="text-fluid-hero font-bold leading-tight flex justify-center items-center"
                     >
-                        <span className="neon-text">Welcome</span>
+                        <span className="neon-text">{t.hero.welcome}</span>
                         <MagneticText as="p" strength={0.2} className="text-fluid-hero font-bold leading-tight">
                             <span className="text-foreground">.</span>
                         </MagneticText>

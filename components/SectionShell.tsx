@@ -31,9 +31,10 @@ interface SectionShellProps {
     title: string;
     titleColor?: 'primary' | 'accent';
     children: ReactNode;
+    projectHeader?: ReactNode;
 }
 
-export default function SectionShell({label, title, titleColor = 'primary', children}: SectionShellProps) {
+export default function SectionShell({label, title, titleColor = 'primary', children, projectHeader}: SectionShellProps) {
     return (
         <div className="flex flex-col items-center justify-start
                         h-full w-full max-w-7xl mx-auto mt-52 md:mt-0 md:justify-center
@@ -52,6 +53,16 @@ export default function SectionShell({label, title, titleColor = 'primary', chil
                     <SpotlightText color={titleColor}>{title}</SpotlightText>
                 </h2>
             </motion.div>
+
+            {projectHeader && (
+                <motion.div
+                    {...ENTRY}
+                    transition={{duration: 0.4, ease: [0.32, 0, 0.18, 1], delay: 0.15}}
+                    className="flex items-center justify-center"
+                >
+                    {projectHeader}
+                </motion.div>
+            )}
 
             <motion.div
                 {...ENTRY}
