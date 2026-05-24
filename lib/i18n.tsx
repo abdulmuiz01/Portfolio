@@ -28,7 +28,7 @@ const it = {
         items: [
             {
                 role: 'Software Developer', company: 'Alt. Srl', type: 'Tempo pieno',
-                period: 'Ott 2025 – Presente', location: 'Dormelletto, Italia · Ibrido',
+                period: 'Ott 2025 – Apr 2026', location: 'Dormelletto, Italia · In presenza',
                 description: "Sviluppo di processi ETL con Talend, integrazione e modellazione di database, sviluppo Java e integrazione Salesforce. Collaborazione sull'automazione dei flussi dati e ottimizzazione dei processi.",
                 tags: ['Talend', 'Java', 'SQL', 'Salesforce', 'Data Integration'],
             },
@@ -75,7 +75,7 @@ const it = {
                 description: "L'app Flutter porta l'intera esperienza MirAI Note su iOS e Android. Editor rich-text con flutter_quill, stato gestito con Riverpod, tutte le funzionalità AI, ricerca semantica, calendario e piani di studio. Archiviazione JWT sicura con Keychain/Keystore, notifiche push Firebase e layout adattivo per smartphone e tablet.",
                 tags: ['Flutter', 'Dart', 'Riverpod', 'Firebase', 'GoRouter', 'flutter_quill'],
                 link: '',
-                linkLabel: 'In arrivo',
+                linkLabel: 'In sviluppo',
                 comingSoon: true,
             },
         ],
@@ -116,7 +116,7 @@ const en: typeof it = {
         items: [
             {
                 role: 'Software Developer', company: 'Alt. Srl', type: 'Full-time',
-                period: 'Oct 2025 – Present', location: 'Dormelletto, Italy · Hybrid',
+                period: 'Oct 2025 – Apr 2026', location: 'Dormelletto, Italy · On site',
                 description: 'ETL process development with Talend, database integration and modeling, Java development, and Salesforce integration. Collaborating on data flow automation and process optimization.',
                 tags: ['Talend', 'Java', 'SQL', 'Salesforce', 'Data Integration'],
             },
@@ -163,7 +163,7 @@ const en: typeof it = {
                 description: 'The Flutter companion app brings the full MirAI Note experience to iOS and Android. Built with Riverpod state management and flutter_quill for rich-text editing, it mirrors every web feature — AI tools, semantic search, calendar, study plans — with native mobile UX: secure JWT via Keychain/Keystore, Firebase push notifications, and an adaptive layout for phones and tablets.',
                 tags: ['Flutter', 'Dart', 'Riverpod', 'Firebase', 'GoRouter', 'flutter_quill'],
                 link: '',
-                linkLabel: 'Coming Soon',
+                linkLabel: 'Work in progress',
                 comingSoon: true,
             },
         ],
