@@ -73,7 +73,7 @@ export default function SectionShell({label, title, titleColor = 'primary', chil
                     <SpotlightGrid
                         className="grid grid-cols-1 sm:grid-cols-2 lg:p-10
                                    gap-4 sm:gap-6 lg:gap-8
-                                   w-full h-10/12 lg:h-auto
+                                   w-full h-9/12 lg:h-auto
                                    px-[clamp(0.5rem,3vw,3rem)]
                                    overflow-y-auto lg:overflow-visible scroll-smooth overscroll-contain no-scrollbar
                                    content-start sm:content-center touch-pan-y"
