@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#D96278"/>
+      <stop offset="100%" stop-color="#B33F60"/>
+    </linearGradient>
+    <linearGradient id="petalSheen" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.96)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.72)"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Rounded square background -->
+  <rect width="100" height="100" rx="22" fill="url(#bg)"/>
+  <!-- Subtle inner highlight -->
+  <rect width="100" height="100" rx="22" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1.5"/>
+
+  <!-- 5 sakura petals — organic teardrop with slight notch at tip -->
+  <g transform="translate(50,50)" fill="url(#petalSheen)">
+    <path d="M 0,-5 C -8,-14 -9,-27 -2,-34 Q 0,-37 2,-34 C 9,-27 8,-14 0,-5 Z"/>
+    <path d="M 0,-5 C -8,-14 -9,-27 -2,-34 Q 0,-37 2,-34 C 9,-27 8,-14 0,-5 Z" transform="rotate(72)"/>
+    <path d="M 0,-5 C -8,-14 -9,-27 -2,-34 Q 0,-37 2,-34 C 9,-27 8,-14 0,-5 Z" transform="rotate(144)"/>
+    <path d="M 0,-5 C -8,-14 -9,-27 -2,-34 Q 0,-37 2,-34 C 9,-27 8,-14 0,-5 Z" transform="rotate(216)"/>
+    <path d="M 0,-5 C -8,-14 -9,-27 -2,-34 Q 0,-37 2,-34 C 9,-27 8,-14 0,-5 Z" transform="rotate(288)"/>
+  </g>
+
+  <!-- Stamens — 5 tiny dots between petals (36° offset) -->
+  <g fill="rgba(255,255,255,0.55)">
+    <circle cx="50" cy="40.5" r="1.2" transform="rotate(36,50,50)"/>
+    <circle cx="50" cy="40.5" r="1.2" transform="rotate(108,50,50)"/>
+    <circle cx="50" cy="40.5" r="1.2" transform="rotate(180,50,50)"/>
+    <circle cx="50" cy="40.5" r="1.2" transform="rotate(252,50,50)"/>
+    <circle cx="50" cy="40.5" r="1.2" transform="rotate(324,50,50)"/>
+  </g>
+
+  <!-- Center sparkle: 4-point star -->
+  <path d="M 50,44.5 L 51.2,48.8 L 55.5,50 L 51.2,51.2 L 50,55.5 L 48.8,51.2 L 44.5,50 L 48.8,48.8 Z"
+        fill="white"/>
+</svg>

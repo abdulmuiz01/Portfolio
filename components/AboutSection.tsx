@@ -1,49 +1,79 @@
-import {motion} from "framer-motion";
-import Image from "next/image";
+'use client'
+
+import {motion} from "framer-motion"
+import Image from "next/image"
+import {MagneticCard} from "@/components/magnetic/MagneticCard"
+import {SpotlightText} from "@/components/Spotlight"
+import {MagneticText} from "@/components/magnetic/MagneticText"
+import {TextScramble} from "@/components/TextScramble"
+import {TiltCard} from "@/components/TiltCard"
+import {useTranslations} from "@/lib/i18n"
+
+const ENTRY = {
+    initial: {opacity: 0, scale: 0.55, filter: 'blur(12px)'},
+    animate: {opacity: 1, scale: 1, filter: 'blur(0px)'},
+    exit: {opacity: 0, scale: 1.18, filter: 'blur(10px)'},
+    transition: {duration: 0.4, ease: [0.32, 0, 0.18, 1] as const, delay: 0.5},
+}
 
 const AboutSection = () => {
-    return (
-        <div className="flex items-center justify-center min-h-screen w-full mx-auto">
-            <motion.div
-                initial={{opacity: 0, y: 40}} whileInView={{opacity: 1, y: 0}}
-                viewport={{once: true}}
-                transition={{duration: 0.6}}
-            >
-                <Image
-                    src="/profile.jpg"
-                    width={500}
-                    height={500}
-                    alt="Picture of the author"
-                    className="rounded-full  "
-                />
-            </motion.div>
-            <div className="flex flex-col items-center justify-center px-6 max-w-3xl ">
-            <p className="text-primary font-body text-sm tracking-[0.3em] uppercase mb-8">
-                About
-            </p>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-8 text-center">
-                I build things for the <span className="neon-text">web</span>.
-            </h2>
-            <p className="text-muted-foreground font-body text-lg leading-relaxed text-center ">
-                I'm a full stack developer passionate about crafting clean, performant
-                applications. With expertise spanning React, Node.js, Python, and cloud
-                infrastructure, I turn complex problems into elegant solutions.
-            </p>
-            <div className="grid grid-cols-3 gap-8 mt-16 w-full max-w-lg">
-                {[
-                    {num: "5+", label: "Years"},
-                    {num: "40+", label: "Projects"},
-                    {num: "15+", label: "Clients"},
-                ].map((stat) => (
-                    <div key={stat.label} className="text-center">
-                        <p className="text-3xl font-heading font-bold neon-text">{stat.num}</p>
-                        <p className="text-muted-foreground text-sm mt-1">{stat.label}</p>
-                    </div>
-                ))}
-            </div>
-            </div>
-        </div>
-    );
-};
+    const t = useTranslations()
 
-export default AboutSection;
+    return (
+        <div className="flex flex-col md:flex-row items-center justify-center
+                        w-full max-w-6xl mx-auto
+                        px-[clamp(1rem,5vw,3rem)]
+                        gap-[clamp(2rem,5vw,5rem)]">
+
+            <motion.div {...ENTRY} className="flex shrink-0 justify-center">
+                <MagneticCard
+                    strength={0.45}
+                    className="group relative rounded-full"
+                    style={{
+                        boxShadow: [
+                            'inset 0 3px 10px rgba(255,255,255,0.10)',
+                            '0 0 18px rgba(0, 220, 200, 0.18)',
+                            '0 3px 0 rgba(0,0,0,0.95)',
+                            '0 6px 0 rgba(0,0,0,0.80)',
+                            '0 9px 0 rgba(0,0,0,0.60)',
+                            '0 12px 0 rgba(0,0,0,0.35)',
+                            '0 20px 50px rgba(0,0,0,1)',
+                        ].join(', '),
+                    }}
+                >
+                    <TiltCard className="rounded-full overflow-hidden">
+                        <Image
+                            src="/profile.png"
+                            width={500}
+                            height={500}
+                            alt="Abdul Muiz Khan"
+                            className="rounded-full size-fluid-avatar block"
+                        />
+                    </TiltCard>
+                </MagneticCard>
+            </motion.div>
+
+            <motion.div
+                {...ENTRY}
+                className="flex flex-col gap-fluid-sm items-center md:items-start justify-center
+                            max-w-xl text-center md:text-left"
+            >
+                <MagneticText strength={0.5} className="text-lg font-bold">
+                    <TextScramble text={t.about.label} trigger="view" className="neon-text uppercase tracking-[0.3em]"/>
+                </MagneticText>
+                <h2 className="text-fluid-2xl font-heading font-bold">
+                    <SpotlightText>{t.about.heading}</SpotlightText>
+                </h2>
+                <p className="text-muted-foreground font-body leading-relaxed text-fluid-sm whitespace-pre-line">
+                    {t.about.bio}
+                </p>
+                <p className="text-muted-foreground font-body text-fluid-sm">
+                    <span className="text-primary "> {t.about.langLabel} —</span>{' '}
+                    {t.about.languages}
+                </p>
+            </motion.div>
+        </div>
+    )
+}
+
+export default AboutSection

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 52">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="#D96278"/>
+      <stop offset="100%" stop-color="#B33F60"/>
+    </linearGradient>
+    <linearGradient id="petalSheen" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.96)"/>
+      <stop offset="100%" stop-color="rgba(255,255,255,0.72)"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ── Icon mark (52×52) ── -->
+  <rect width="52" height="52" rx="12" fill="url(#bg)"/>
+  <rect width="52" height="52" rx="12" fill="none" stroke="rgba(255,255,255,0.10)" stroke-width="1"/>
+
+  <!-- 5 petals -->
+  <g transform="translate(26,26)" fill="url(#petalSheen)">
+    <path d="M 0,-2.6 C -4.2,-7.3 -4.7,-14 -1,-17.7 Q 0,-19.2 1,-17.7 C 4.7,-14 4.2,-7.3 0,-2.6 Z"/>
+    <path d="M 0,-2.6 C -4.2,-7.3 -4.7,-14 -1,-17.7 Q 0,-19.2 1,-17.7 C 4.7,-14 4.2,-7.3 0,-2.6 Z" transform="rotate(72)"/>
+    <path d="M 0,-2.6 C -4.2,-7.3 -4.7,-14 -1,-17.7 Q 0,-19.2 1,-17.7 C 4.7,-14 4.2,-7.3 0,-2.6 Z" transform="rotate(144)"/>
+    <path d="M 0,-2.6 C -4.2,-7.3 -4.7,-14 -1,-17.7 Q 0,-19.2 1,-17.7 C 4.7,-14 4.2,-7.3 0,-2.6 Z" transform="rotate(216)"/>
+    <path d="M 0,-2.6 C -4.2,-7.3 -4.7,-14 -1,-17.7 Q 0,-19.2 1,-17.7 C 4.7,-14 4.2,-7.3 0,-2.6 Z" transform="rotate(288)"/>
+  </g>
+
+  <!-- Stamen dots -->
+  <g fill="rgba(255,255,255,0.50)" transform="translate(26,26)">
+    <circle cx="0" cy="-10.7" r="0.65" transform="rotate(36)"/>
+    <circle cx="0" cy="-10.7" r="0.65" transform="rotate(108)"/>
+    <circle cx="0" cy="-10.7" r="0.65" transform="rotate(180)"/>
+    <circle cx="0" cy="-10.7" r="0.65" transform="rotate(252)"/>
+    <circle cx="0" cy="-10.7" r="0.65" transform="rotate(324)"/>
+  </g>
+
+  <!-- 4-point sparkle center -->
+  <path d="M 26,23.3 L 26.6,25.4 L 28.7,26 L 26.6,26.6 L 26,28.7 L 25.4,26.6 L 23.3,26 L 25.4,25.4 Z" fill="white"/>
+
+  <!-- ── Wordmark text ── -->
+  <!-- "MirAI" — dark foreground -->
+  <text x="66" y="26"
+        font-family="Quicksand, 'DM Sans', Inter, system-ui, sans-serif"
+        font-size="19" font-weight="700" letter-spacing="-0.3"
+        fill="#241419">Mir<tspan fill="#C8607C">AI</tspan></text>
+
+  <!-- "Note" — muted subtext -->
+  <text x="67" y="41"
+        font-family="Quicksand, 'DM Sans', Inter, system-ui, sans-serif"
+        font-size="11" font-weight="500" letter-spacing="2.5"
+        fill="#C8607C" opacity="0.8">NOTE</text>
+</svg>

@@ -1,40 +1,38 @@
-const skills = [
-    { category: "Frontend", items: ["React", "TypeScript", "Next.js", "Tailwind CSS"] },
-    { category: "Backend", items: ["Node.js", "Python", "PostgreSQL", "GraphQL"] },
-    { category: "DevOps", items: ["AWS", "Docker", "CI/CD", "Kubernetes"] },
-];
+'use client'
 
-const SkillsSection = () => {
+import {MagneticCard} from "@/components/magnetic/MagneticCard"
+import {SpotlightCard} from "@/components/Spotlight"
+import SectionShell, {METAL_STYLE} from "@/components/SectionShell"
+import {useTranslations} from "@/lib/i18n"
+
+const TechStackSection = () => {
+    const t = useTranslations()
+
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen px-6 w-full mx-auto">
-            <p className="text-primary font-body text-sm tracking-[0.3em] uppercase mb-8">
-                Skills
-            </p>
-            <h2 className="text-4xl md:text-5xl font-heading font-bold mb-16 text-center">
-                Tech <span className="neon-text-purple">Stack</span>
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-1/2">
-                {skills.map((group) => (
-                    <div
-                        key={group.category}
-                        className="border border-border rounded-lg p-6 neon-border"
-                    >
-                        <h3 className="font-heading font-semibold text-lg mb-4 neon-text">
-                            {group.category}
-                        </h3>
-                        <ul className="space-y-2">
+        <SectionShell label={t.tech.label} title={t.tech.title} titleColor="accent">
+            {t.tech.skills.map((group, i) => (
+                <MagneticCard
+                    key={group.category}
+                    strength={0.15}
+                    className="group relative rounded-3xl cursor-pointer"
+                    style={METAL_STYLE}
+                >
+                    <SpotlightCard color="accent" radius={170} className="p-5 rounded-3xl h-full flex flex-col min-h-44">
+                        <span className="text-muted-foreground text-xs font-body">0{i + 1}</span>
+                        <h3 className="font-heading font-semibold text-lg mt-1 mb-3 neon-text">{group.category}</h3>
+                        <ul className="flex flex-wrap gap-2">
                             {group.items.map((item) => (
-                                <li key={item} className="text-muted-foreground font-body text-sm flex items-center gap-2">
-                                    <span className="w-1 h-1 rounded-full bg-primary" />
+                                <li key={item} className="text-muted-foreground font-body flex items-center gap-1.5">
+                                    <span className="w-1 h-1 rounded-full bg-primary shrink-0"/>
                                     {item}
                                 </li>
                             ))}
                         </ul>
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};
+                    </SpotlightCard>
+                </MagneticCard>
+            ))}
+        </SectionShell>
+    )
+}
 
-export default SkillsSection;
+export default TechStackSection

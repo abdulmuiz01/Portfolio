@@ -52,38 +52,46 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
+  --background: oklch(0.88 0.035 240);
+  --foreground: oklch(0.10 0.02 250);
+
+  --card: oklch(0.83 0.038 240);
+  --card-foreground: oklch(0.10 0.02 250);
+
+  --popover: oklch(0.88 0.035 240);
+  --popover-foreground: oklch(0.10 0.02 250);
+
+  /* neon teal — darkened to stay readable on light bg */
+  --primary: oklch(0.40 0.18 185);
+  --primary-foreground: oklch(0.95 0.005 240);
+
+  --secondary: oklch(0.80 0.038 240);
+  --secondary-foreground: oklch(0.10 0.02 250);
+
+  --muted: oklch(0.80 0.038 240);
+  --muted-foreground: oklch(0.35 0.03 245);
+
+  /* neon purple — darkened for light bg */
+  --accent: oklch(0.38 0.20 315);
+  --accent-foreground: oklch(0.95 0.005 240);
+
+  --destructive: oklch(0.52 0.22 27);
+  --border: oklch(0.73 0.035 240);
+  --input: oklch(0.73 0.035 240);
+  --ring: oklch(0.40 0.18 185);
+
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+
+  --sidebar: oklch(0.83 0.038 240);
+  --sidebar-foreground: oklch(0.10 0.02 250);
+  --sidebar-primary: oklch(0.40 0.18 185);
+  --sidebar-primary-foreground: oklch(0.95 0.005 240);
+  --sidebar-accent: oklch(0.80 0.038 240);
+  --sidebar-accent-foreground: oklch(0.10 0.02 250);
+  --sidebar-border: oklch(0.73 0.035 240);
+  --sidebar-ring: oklch(0.40 0.18 185);
+
+  --neon-dim: oklch(0.52 0.10 185);
 }
 
 .dark {
@@ -148,6 +156,23 @@
 }
 
 @layer utilities {
+  /* ── Fluid typography ─────────────────────────────────────────────────────
+     Replace breakpoint pairs (e.g. text-3xl md:text-6xl) with these so sizes
+     interpolate continuously instead of snapping at a threshold.           */
+  .text-fluid-sm   { font-size: clamp(0.875rem, 1.5vw, 1.125rem); } /* sm  → lg   */
+  .text-fluid-base { font-size: clamp(1rem,     1.8vw, 1.25rem);  } /* base → xl  */
+  .text-fluid-2xl  { font-size: clamp(1.875rem, 4vw,   3rem);     } /* 3xl → 5xl  */
+  .text-fluid-3xl  { font-size: clamp(1.875rem, 5vw,   3.75rem);  } /* 3xl → 6xl  */
+  .text-fluid-hero { font-size: clamp(2.5rem,   9vw,   8rem);     } /* 5xl → 9xl  */
+
+  /* ── Fluid spacing ────────────────────────────────────────────────────── */
+  .gap-fluid-sm { gap: clamp(1.25rem, 3vw, 2.5rem); } /* gap-5  → gap-10 */
+  .gap-fluid-md { gap: clamp(1.25rem, 4vw, 3.5rem); } /* gap-5  → gap-14 */
+  .gap-fluid-lg { gap: clamp(2.5rem,  6vw, 5rem);   } /* gap-10 → gap-20 */
+
+  /* ── Fluid avatar ─────────────────────────────────────────────────────── */
+  .size-fluid-avatar { width: clamp(10rem, 25vw, 22rem); height: clamp(10rem, 25vw, 22rem); }
+
   .neon-text {
     color: var(--color-primary);
     text-shadow:
@@ -175,6 +200,15 @@
             0 0 15px color-mix(in srgb, var(--color-accent) 20%, transparent),
             inset 0 0 12px color-mix(in srgb, var(--color-accent) 10%, transparent);
   }
+
+  /* ── Safe-area edge helpers ───────────────────────────────────────────────
+     Apply to fixed/absolute elements near screen edges when viewport-fit=cover
+     is active — keeps content clear of the notch and home indicator.
+     On desktop / browsers without safe areas these resolve to 0px (no-op). */
+  .pt-safe  { padding-top:    env(safe-area-inset-top,    0px); }
+  .pb-safe  { padding-bottom: env(safe-area-inset-bottom, 0px); }
+  .pl-safe  { padding-left:   env(safe-area-inset-left,   0px); }
+  .pr-safe  { padding-right:  env(safe-area-inset-right,  0px); }
 }
 
 /*body {*/
@@ -182,7 +216,14 @@
 /*  overscroll-behavior: contain;*/
 /*}*/
 
+html {
+  overscroll-behavior: none;
+  background-color: var(--background);
+}
+
 body {
   font-family: var(--font-space_grotesk), sans-serif;
-  overscroll-behavior: contain;
+  overscroll-behavior: none;
+  background-color: var(--background);
 }
+
