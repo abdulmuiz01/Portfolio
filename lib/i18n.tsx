@@ -82,7 +82,7 @@ const it = {
     },
     contact: {
         label: 'Contatti',
-        title: 'Connetiamoci!',
+        title: 'Connettiamoci!',
         subtitle: 'Hai un progetto in mente? Mi farebbe piacere sentirne parlare.',
         linkedin: 'LinkedIn', email: 'Email', whatsapp: 'WhatsApp',
     },
